@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+
+{% block title %}Login Page{% endblock title %}
+
+{% block content %} 
+    <h2>Certifs</h2>
+    <ul>
+        <li>first name: {{ user.first_name }}</li>  
+        <li>last name:{{ user.last_name }}</li>
+        <li>bday {{ user.birthday }}</li>
+        <!--pourquoi if ne marche pas ??-->
+        {% if user %}
+        <!--{% for d in data %}-->
+        <li>first name: {{ user.first_name }}</li>  
+        <li>last name:{{ user.last_name }}</li>
+        <li>bday {{ user.birthday }}</li>
+    <!--{% endfor %}-->
+    {%endif%}
+    </ul>
+    <form method="post" name='form' enctype='multipart/form-data'>
+        {% csrf_token %}
+        {{ profileform.as_p }}
+
+        <button type="submit">save</button>
+    </form>
+    <br>
+    <p><strong>-- OR --</strong></p>
+    
+{% endblock content %}
