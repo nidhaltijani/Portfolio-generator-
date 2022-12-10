@@ -1,6 +1,7 @@
 from django.urls import include,path
 from rest_framework import routers
 from .views import *
+import rest_framework
 #urls using ModelViewSet
 router=routers.DefaultRouter() #get the default router object defined in rest_framework
 
@@ -34,7 +35,9 @@ router.register(r'Recommendation_Letters',RecommendationLetterViewSet)
 #add the router to the urlpatterns
 urlpatterns = [
      path('', include(router.urls)),
-     path(r'auth/', UserAuthentication.as_view(),name="user authentif API"),
+     path(r'auth/',login,name="user authentif API"),
+     #path(r'connect/',include("rest_framework.urls")),
+    # path('try/', get_token,name="get"),
      
     
     

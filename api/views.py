@@ -3,12 +3,43 @@ from requests import Response
 from rest_framework import viewsets
 from .models import  *
 from api.serializers import *
+from rest_framework.authentication import TokenAuthentication
 from rest_framework.permissions import  IsAuthenticated
 from rest_framework.renderers import TemplateHTMLRenderer,JSONRenderer
 from rest_framework.authtoken.views import ObtainAuthToken
 from rest_framework.authtoken.models import Token
 #TODO check this
+from django.contrib.auth import authenticate
+from django.views.decorators.csrf import csrf_exempt
+from rest_framework.authtoken.models import Token
+from rest_framework.decorators import api_view, permission_classes
+from rest_framework.permissions import AllowAny
+from rest_framework.status import (
+    HTTP_400_BAD_REQUEST,
+    HTTP_404_NOT_FOUND,
+    HTTP_200_OK
+)
+from rest_framework.response import Response
+import requests
+url='http://127.0.0.1:8000/api/'
 
+@csrf_exempt
+@api_view(["POST"])
+@permission_classes((AllowAny,))
+def login(request):
+    email = request.data.get("email")
+    password = request.data.get("password")
+    if email is None or password is None:
+        return Response({'error': 'Please provide both email and password'},
+                        status=HTTP_400_BAD_REQUEST)
+    user = authenticate(email=email, password=password)
+    if not user:
+        return Response({'error': 'Invalid Credentials'},
+                        status=HTTP_404_NOT_FOUND)
+    token, _ = Token.objects.get_or_create(user=user)
+    return Response({'token': token.key},
+                    status=HTTP_200_OK)
+"""
 class UserAuthentication(ObtainAuthToken):
     def post(self, request, *args, **kwargs):
         serializer = self.serializer_class(data=request.data, context={'request':request})
@@ -17,7 +48,7 @@ class UserAuthentication(ObtainAuthToken):
         token, created = Token.objects.get_or_create(user=user)
         return Response(token.key)
 
-
+"""
 
 
 class UserViewSet(viewsets.ModelViewSet):
@@ -27,6 +58,7 @@ class UserViewSet(viewsets.ModelViewSet):
 
 class ProfileViewSet(viewsets.ModelViewSet):
     #permission_classes = [IsAuthenticated]
+    authentication_classes = (TokenAuthentication,)
     queryset = profile.objects.all()
     serializer_class = ProfileSerializer
     http_method_name = ['get', 'post', 'put', 'delete','patch']

@@ -14,7 +14,7 @@ from rest_framework.renderers import TemplateHTMLRenderer
 from api.serializers import *
 import requests
 #login form 
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect,HttpResponse
 from .forms import *
 # Create your views here.
 #register is working perfectly
@@ -75,8 +75,9 @@ def logout(request):
     return redirect('signin')
 
 def get_token(): # problem hereee
-    response=requests.post(f'{url}auth',data={'email':'test@test.test','username':'test','password':'test'})
+    response=requests.post(f"{url}auth/",data={"email":"last@last.last","password":"last"}) #json only uses double quotes
     return response.json()
+    #return HttpResponse(response.text)
 
 #@login_required(login_url='signin')
 def my_profile(request):
@@ -85,9 +86,9 @@ def my_profile(request):
     profform=profileForm(request.POST,request.FILES or None) #nahyna user_profile w hatyna 1 pour tester
     
     if request.method=='POST':
-        #header={'Authorization': f'Token {get_token()}'}
-        #response=requests.delete(f'{url}profile/1/') workssssssssss
-        response=requests.patch(f'{url}profile/2/',data=profform.data) #khdem zedaaaa
+        header = {"Authorization": f"Token {get_token()}"}
+        #response=requests.delete(f'{url}profile/1/') #workssssssssss
+        response=requests.patch(f"{url}profile/2/",data=profform.data,headers=header) #khdem zedaaaa
         
         redirect('profile')
     
