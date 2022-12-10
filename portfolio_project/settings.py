@@ -43,7 +43,7 @@ INSTALLED_APPS = [
     'portfolio_app',
     #'social_django',
     'rest_framework.authtoken',
-    "corsheaders",
+    #"corsheaders",
 ]
 
 MIDDLEWARE = [
@@ -163,10 +163,11 @@ REST_FRAMEWORK = {
         )
 }
 
-
+"""
 CORS_ALLOWED_ORIGINS = [
     
     "http://localhost:8000",
     "http://127.0.0.1:8000",
    
 ]
+"""

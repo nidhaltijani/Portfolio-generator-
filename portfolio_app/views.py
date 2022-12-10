@@ -76,10 +76,11 @@ def logout(request):
 
 def get_token(): # problem hereee
     response=requests.post(f"{url}auth/",data={"email":"last@last.last","password":"last"}) #json only uses double quotes
-    return response.json()
+    return response.json()["token"] # we should only take the tokennnn
     #return HttpResponse(response.text)
 
 #@login_required(login_url='signin')
+#enfin khedmet bel authentificationnnnnnnnn
 def my_profile(request):
     #user_profile=request.user
     
@@ -89,7 +90,6 @@ def my_profile(request):
         header = {"Authorization": f"Token {get_token()}"}
         #response=requests.delete(f'{url}profile/1/') #workssssssssss
         response=requests.patch(f"{url}profile/2/",data=profform.data,headers=header) #khdem zedaaaa
-        
         redirect('profile')
     
        

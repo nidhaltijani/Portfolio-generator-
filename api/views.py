@@ -1,4 +1,5 @@
 
+from django.shortcuts import redirect
 from requests import Response
 from rest_framework import viewsets
 from .models import  *
@@ -37,6 +38,7 @@ def login(request):
         return Response({'error': 'Invalid Credentials'},
                         status=HTTP_404_NOT_FOUND)
     token, _ = Token.objects.get_or_create(user=user)
+    #redirect("profile")
     return Response({'token': token.key},
                     status=HTTP_200_OK)
 """
@@ -57,8 +59,8 @@ class UserViewSet(viewsets.ModelViewSet):
     http_method_name = ['get', 'post', 'put', 'delete','patch']
 
 class ProfileViewSet(viewsets.ModelViewSet):
-    #permission_classes = [IsAuthenticated]
-    authentication_classes = (TokenAuthentication,)
+    permission_classes = [IsAuthenticated]
+    authentication_classes = [TokenAuthentication]
     queryset = profile.objects.all()
     serializer_class = ProfileSerializer
     http_method_name = ['get', 'post', 'put', 'delete','patch']
