@@ -26,7 +26,7 @@ class languageform(forms.Form):
     typeoflanguage=forms.ChoiceField(choices=language.proficiency.choices)  # fazet l proficiency kifeh lhnee
     #user=forms.CharField()
 
-class language(forms.Form):
+class skillform(forms.Form):
     skill=forms.CharField()
     tool=forms.CharField() 
 

@@ -125,23 +125,14 @@
         <div class="shape"></div>
         <div class="shape"></div>
     </div>
-    <form>
+    <form method="post">
         <h3>Skills</h3>
 
         <label for="text">Add a skill</label>
-        <input type="text" placeholder=" add your Skill" id="Skills">
+        {%csrf_token%}
+        {{skillform}}
 
-        <label for="text">Tool related</label>
-        <input type="text" placeholder="ex: powerBI, Talend.." id="Tool">
-        <label for="text">Add a skill</label>
-        <input type="text" placeholder="add your skill" id="Skills">
-
-        <label for="text">Tool related</label>
-        <input type="text" placeholder="ex: powerBI, Talend .." id="Tool">
-
-        
-
-        <button>Next</button>
+        <button type="submit">Next</button>
         </div>
     </form>
 </body>

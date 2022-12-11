@@ -10,6 +10,7 @@ from rest_framework.renderers import TemplateHTMLRenderer,JSONRenderer
 from rest_framework.authtoken.views import ObtainAuthToken
 from rest_framework.authtoken.models import Token
 #TODO check this
+from rest_framework import status
 from django.contrib.auth import authenticate
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework.authtoken.models import Token
@@ -79,7 +80,22 @@ def signup(request):
         else :
             return Response({'error': 'Password doesnt match'})
             
-   
+@api_view(['GET', 'POST'])
+def post_or_get_all_skills(request,id):
+    if request.method=='POST':
+        serializer=SkillSerializer(data=request.data)
+        #serializer["portfolio"]=id
+        serializer.is_valid(raise_exception=True)
+        serializer.save(portoflio_id=id)
+        return Response(serializer.data, status=201)
+    elif request.method=='GET':
+        skills=skill.objects.filter(portoflio_id=id)
+        if len(skills)==0:
+            return Response(status=204)
+        serializer=SkillSerializer(skills, context={'request': request}, many=True)
+        return Response(serializer.data, status=200)
+    return Response(status=status.HTTP_405_METHOD_NOT_ALLOWED)
+#get working
 
 
 
@@ -102,8 +118,6 @@ class ProfileViewSet(viewsets.ModelViewSet):
         #username = self.kwargs['username']
         return profile.objects.filter(usr__id=self.request.user.pk)
     
-    
-
 class PortfolioViewSet(viewsets.ModelViewSet):
     #permission_classes = [IsAuthenticated]
     permission_classes = [IsAuthenticated]

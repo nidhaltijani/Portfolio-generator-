@@ -58,6 +58,8 @@ urlpatterns = [
      path(r'auth/',login,name="user authentif API"),
      path(r'register/',signup,name="signup"),
      path(r'accomp/<int:id>/',get_accomp_by_user_id,name="get_accom"),
+     #path(r'langue/<int:id>/',post_or_get_all_language,name="langue"),
+     path(r'skill/<int:id>/',post_or_get_all_skills,name="skills"),
      
     # path('',include(user_router.urls)),
      #path(r'connect/',include("rest_framework.urls")),

@@ -127,15 +127,20 @@ def provide_feedback(request):
     return render(request,'feedback.html',{'user': user_profile,'feedback':fbkform})
 
 
-def language_view_create(request):   
-    language_f=languageform(request.POST or None) #ne pas faire 2 instances du form
+def skill_view_create(request):   
+    language_f=skillform(request.POST or None) #ne pas faire 2 instances du form
+    
     if language_f.is_valid():
-        post_data=language_f.data
-        """post_data._mutable=True
-        post_data['user']=request.user.pk
-        post_data._mutable=False"""
+        #post_data=language_f.data
         header = {"Authorization": f"Token {request.session['token']}"}
-        response=requests.post(f"{url}Languages/",data=post_data,headers=header) 
-        redirect('lang')
+        response=requests.post(f"{url}skill/{request.user.pk}/",data=language_f.data,headers=header) 
+        redirect('login')
      
-    return render(request,'language.html',{'languageForm':language_f})
+    return render(request,'skill.html',{'skillform':language_f})
+
+def skills_get(request):
+    header = {"Authorization": f"Token {request.session['token']}"}
+    response=requests.get(f"{url}skill/{request.user.pk}/",headers=header) 
+    return render(request,'skill.html')
+    
+

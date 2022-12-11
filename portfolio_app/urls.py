@@ -10,7 +10,9 @@ urlpatterns = [
     path('signup/', signup,name="signup"),
     path('acc/', create_accomplishment,name="signup"),
     path('award/', create_accomplishment,name="signup"),
-    path('lang/', language_view_create,name="lang"),
+    path('skill/', skill_view_create,name="skill"),
+    path('skillget/', skills_get,name="skillget"),
+  
     
     #path('oauth/', include('social_django.urls', namespace='social')),
 ]

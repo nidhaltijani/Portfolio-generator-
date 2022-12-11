@@ -32,7 +32,7 @@ class ProfileSerializer(serializers.ModelSerializer):
         model=profile
         fields='__all__'
 class PortfolioSerializer(serializers.ModelSerializer):
-    usr=UserSerializer(many=False)
+    #usr=UserSerializer(many=False)
     class Meta:
         model=portfolio
         fields=['philosophy_statement','about','usr'] #serializes all fields    
@@ -47,7 +47,9 @@ class LanguageSerializer(serializers.ModelSerializer):
 class SkillSerializer(serializers.ModelSerializer):
     class Meta:
         model=skill
-        fields='__all__' #serializes all fields    
+        fields=['name','tool'] #serializes all fields    
+    """def save(self, **kwargs):
+        return super().save(**kwargs)"""
 
 
 class FormationSerializer(serializers.ModelSerializer):
