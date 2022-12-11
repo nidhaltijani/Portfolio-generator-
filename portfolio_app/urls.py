@@ -12,6 +12,10 @@ urlpatterns = [
     path('award/', create_accomplishment,name="signup"),
     path('skill/', skill_view_create,name="skill"),
     path('skillget/', skills_get,name="skillget"),
+    path('formationget/', formations_get,name="formationget"),
+    path('formation/', formation_view_create,name="formation"),
+    path('language/', language_view_create,name="language"),
+    path('social/', social_view_create,name="social"),
   
     
     #path('oauth/', include('social_django.urls', namespace='social')),

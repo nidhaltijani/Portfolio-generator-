@@ -104,6 +104,7 @@ class accomplishment(models.Model):
     date_a=models.DateField(default=date(2022,1,1))
     class Meta:
         abstract=True
+        
 class professionalAccomplishment(accomplishment):
     class accomplishmentCategories(models.TextChoices):
         advising=("advising",'Spirit category')

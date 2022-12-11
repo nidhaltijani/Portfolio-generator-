@@ -41,7 +41,7 @@ class PortfolioSerializer(serializers.ModelSerializer):
 class LanguageSerializer(serializers.ModelSerializer):
     class Meta:
         model=language
-        fields='__all__' #serializes all fields    
+        fields=["name","typeoflanguage"] #serializes all fields    
 
 
 class SkillSerializer(serializers.ModelSerializer):
@@ -55,64 +55,67 @@ class SkillSerializer(serializers.ModelSerializer):
 class FormationSerializer(serializers.ModelSerializer):
     class Meta:
         model=formation
-        fields='__all__' #serializes all fields    
-
+        fields=["name","establishment","country_establishment","start_date","end_date"] #serializes all fields  
+        
 
 class ProfessionalAccomplishmentSerializer(serializers.ModelSerializer):
     class Meta:
         model=professionalAccomplishment
-        fields='__all__' #serializes all fields    
+        fields=[] #serializes all fields    
 
 
 class AwardSerializer(serializers.ModelSerializer):
     class Meta:
         model=award
-        fields='__all__' #serializes all fields    
-
+        #fields=["recognition"] #serializes all fields    
+        exlude=["portfolio"]
 
 class Social_accountsSerializer(serializers.ModelSerializer):
     class Meta:
         model=social_accounts
-        fields='__all__' #serializes all fields    
+        fields=["facebook","github","linkedin","website","google"] #serializes all fields    
+        
 
 
 class ProjectSerializer(serializers.ModelSerializer):
     class Meta:
         model=project
-        fields='__all__' #serializes all fields    
-
+        fields=["name","description","date_creation","visual_demo"] #serializes all fields  
+         
 
 class CertificateSerializer(serializers.ModelSerializer):
     class Meta:
         model=certificate
-        fields='__all__' #serializes all fields    
+        exlude=["portfolio"] #serializes all fields    
 
 
 class VolunteeringSerializer(serializers.ModelSerializer):
     class Meta:
         model=volunteering
-        fields='__all__' #serializes all fields    
-
+        fields=["poste","organization","start_date","end_date"] #serializes all fields    
+        
 
 class Work_experienceSerializer(serializers.ModelSerializer):
     class Meta:
         model=work_experience
-        fields='__all__' #serializes all fields    
+        fields=["poste","organization","start_date","end_date"] #serializes all fields    
+        
 
 
 class FeedbackSerializer(serializers.ModelSerializer):
     class Meta:
         model=feedback
-        fields='__all__' #serializes all fields    
+        fields=["title","feedback"] #serializes all fields    
+       
 
 
 class MotivationLetterSerializer(serializers.ModelSerializer):
     class Meta:
         model=motivationLetter
-        fields='__all__' #serializes all fields    
+        exlude=["portfolio"] #serializes all fields    
 
 
 class RecommendationLetterSerializer(serializers.ModelSerializer):
     class Meta:
         model=recommendationLetter
-        fields='__all__' #serializes all fields    
+        exlude=["portfolio"] #serializes all fields    

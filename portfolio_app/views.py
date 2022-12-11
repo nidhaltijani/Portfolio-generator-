@@ -23,6 +23,8 @@ from .forms import *
 url='http://127.0.0.1:8000/api/'
 
 
+#portfolio_id == user id cuz creation same time  with signals
+
 # not working
 def signup(request):
     
@@ -126,7 +128,7 @@ def provide_feedback(request):
         return render(request,'feedback.html',{'user': user_profile,'feedback':fbkform})
     return render(request,'feedback.html',{'user': user_profile,'feedback':fbkform})
 
-
+@login_required(login_url='signin')
 def skill_view_create(request):   
     language_f=skillform(request.POST or None) #ne pas faire 2 instances du form
     
@@ -134,13 +136,54 @@ def skill_view_create(request):
         #post_data=language_f.data
         header = {"Authorization": f"Token {request.session['token']}"}
         response=requests.post(f"{url}skill/{request.user.pk}/",data=language_f.data,headers=header) 
-        redirect('login')
+        return redirect('login')
      
     return render(request,'skill.html',{'skillform':language_f})
 
+@login_required(login_url='signin')
 def skills_get(request):
     header = {"Authorization": f"Token {request.session['token']}"}
     response=requests.get(f"{url}skill/{request.user.pk}/",headers=header) 
     return render(request,'skill.html')
-    
 
+
+
+@login_required(login_url='signin')
+def formation_view_create(request):   
+    form=formationform(request.POST or None) #ne pas faire 2 instances du form
+    
+    if form.is_valid():
+        header = {"Authorization": f"Token {request.session['token']}"}
+        response=requests.post(f"{url}formation/{request.user.pk}/",data=form.data,headers=header) 
+        return redirect('login')
+    return render(request,'formation.html',{'form':form})
+
+@login_required(login_url='signin')
+def formations_get(request):
+    header = {"Authorization": f"Token {request.session['token']}"}
+    response=requests.get(f"{url}formation/{request.user.pk}/",headers=header) 
+    return render(request,'formation.html')
+    
+@login_required(login_url='signin')
+def language_view_create(request):   
+    form=languageform(request.POST or None) #ne pas faire 2 instances du form
+    if form.is_valid():
+        header = {"Authorization": f"Token {request.session['token']}"}
+        response=requests.post(f"{url}language/{request.user.pk}/",data=form.data,headers=header) 
+        return redirect('login')
+    return render(request,'language.html',{'form':form})
+
+@login_required(login_url='signin')
+def languages_get(request):
+    header = {"Authorization": f"Token {request.session['token']}"}
+    response=requests.get(f"{url}language/{request.user.pk}/",headers=header) 
+    return render(request,'language.html')
+
+@login_required(login_url='signin')
+def social_view_create(request):   
+    form=social_accounts_form(request.POST or None) #ne pas faire 2 instances du form
+    if form.is_valid():
+        header = {"Authorization": f"Token {request.session['token']}"}
+        response=requests.post(f"{url}social/{request.user.pk}/",data=form.data,headers=header) 
+        return redirect('login')
+    return render(request,'social.html',{'form':form})

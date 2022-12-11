@@ -125,22 +125,12 @@
         <div class="shape"></div>
         <div class="shape"></div>
     </div>
-    <form>
+    <form method="post">
         <h3>Formation</h3>
+        {%csrf_token%}
+        {{form}}
 
-        <label for="text">Formation</label>
-        <input type="text" placeholder="Formation" id="Formation">
-
-        <label for="text">Establishment</label>
-        <input type="text" placeholder="Establishment" id="Establishment">
-
-        <label for="date">Start date</label>
-        <input type="date" id="date">
-        
-        <label for="date">End date</label>
-        <input type="date" id="date">
-
-        <button>Next</button>
+        <button type="submit">Next</button>
         </div>
     </form>
 </body>

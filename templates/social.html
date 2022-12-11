@@ -151,19 +151,13 @@
         <div class="shape"></div>
         <div class="shape"></div>
     </div>
-    <form>
+    <form method="post">
         <h3>Add your Social Media</h3>
         
-        <div class="social">
-            <div class="go"><i class="fab fa-google"></i> Google</div>
-            <div class="fb"><i class="fab fa-facebook"></i> Facebook</div>
-        </div>
-        <div class="social">
-            <div class="go"><i class="fab fa-github"></i> Github</div>
-            <div class="fb"><i class="fab fa-linkedin"></i> Linkedin</div>
-            <div class="fb"><i class="fab fa-website"></i>Your Website</div>
-        </div>
-        <button>Next</button>
+        {%csrf_token%}
+        {{form}}
+
+        <button type="submit">Next</button>
     </form>
 </body>
 

@@ -45,16 +45,8 @@ def login(request):
     #,"user_id":user_id,"portfolio_id":portfolio_id
     return Response({'token': token.key},
                     status=HTTP_200_OK)
-"""
-class UserAuthentication(ObtainAuthToken):
-    def post(self, request, *args, **kwargs):
-        serializer = self.serializer_class(data=request.data, context={'request':request})
-        serializer.is_valid(raise_exception=True)
-        user = serializer.validated_data['user']
-        token, created = Token.objects.get_or_create(user=user)
-        return Response(token.key)
 
-"""
+
 @csrf_exempt
 @api_view(["POST"])
 @permission_classes((AllowAny,))
@@ -79,7 +71,8 @@ def signup(request):
                
         else :
             return Response({'error': 'Password doesnt match'})
-            
+ 
+@csrf_exempt            
 @api_view(['GET', 'POST'])
 def post_or_get_all_skills(request,id):
     if request.method=='POST':
@@ -95,14 +88,59 @@ def post_or_get_all_skills(request,id):
         serializer=SkillSerializer(skills, context={'request': request}, many=True)
         return Response(serializer.data, status=200)
     return Response(status=status.HTTP_405_METHOD_NOT_ALLOWED)
-#get working
+
+@csrf_exempt
+@api_view(['GET', 'POST'])
+def post_or_get_all_formation(request,id):
+    if request.method=='POST':
+        serializer=FormationSerializer(data=request.data)
+        #serializer["portfolio"]=id
+        serializer.is_valid(raise_exception=True)
+        serializer.save(portoflio_id=id)
+        return Response(serializer.data, status=201)
+    elif request.method=='GET':
+        formations=formation.objects.filter(portoflio_id=id)
+        if len(formations)==0:
+            return Response(status=204)
+        serializer=FormationSerializer(formations, context={'request': request}, many=True)
+        return Response(serializer.data, status=200)
+    return Response(status=status.HTTP_405_METHOD_NOT_ALLOWED)
+
+@csrf_exempt
+@api_view(['GET', 'POST'])
+def post_or_get_all_language(request,id):
+    if request.method=='POST':
+        serializer=LanguageSerializer(data=request.data)
+        #serializer["portfolio"]=id
+        serializer.is_valid(raise_exception=True)
+        serializer.save(portoflio_id=id)
+        return Response(serializer.data, status=201)
+    elif request.method=='GET':
+        languages=language.objects.filter(portoflio_id=id)
+        if len(languages)==0:
+            return Response(status=204)
+        serializer=LanguageSerializer(languages, context={'request': request}, many=True)
+        return Response(serializer.data, status=200)
+    return Response(status=status.HTTP_405_METHOD_NOT_ALLOWED)
+
+@csrf_exempt
+@api_view(['GET', 'POST'])
+def post_or_get_all_social(request,id):
+    if request.method=='POST':
+        serializer=Social_accountsSerializer(data=request.data)
+        #serializer["portfolio"]=id
+        serializer.is_valid(raise_exception=True)
+        serializer.save(portoflio_id=id)
+        return Response(serializer.data, status=201)
+    elif request.method=='GET':
+        accounts=social_accounts.objects.filter(portoflio_id=id)
+        if len(accounts)==0:
+            return Response(status=204)
+        serializer=LanguageSerializer(accounts, context={'request': request}, many=True)
+        return Response(serializer.data, status=200)
+    return Response(status=status.HTTP_405_METHOD_NOT_ALLOWED)
 
 
-
-class UserViewSet(viewsets.ModelViewSet):
-    queryset = user.objects.all()
-    serializer_class = UserSerializer
-    http_method_name = ['get', 'post', 'put', 'delete','patch']
 
 class ProfileViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated]
@@ -125,127 +163,3 @@ class PortfolioViewSet(viewsets.ModelViewSet):
     queryset = portfolio.objects.all()
     serializer_class = PortfolioSerializer
     http_method_name = ['get', 'post', 'put', 'delete','patch']
-    
-class LanguageViewSet(viewsets.ModelViewSet):
-    #permission_classes = [IsAuthenticated]
-    permission_classes = [IsAuthenticated]
-    authentication_classes = [TokenAuthentication]
-    queryset = language.objects.all()
-    serializer_class = LanguageSerializer
-    http_method_name = ['get', 'post', 'put', 'delete','patch']
-
-class SkillViewSet(viewsets.ModelViewSet):
-    #permission_classes = [IsAuthenticated]
-    permission_classes = [IsAuthenticated]
-    authentication_classes = [TokenAuthentication]
-    queryset = skill.objects.all()
-    serializer_class = SkillSerializer
-    http_method_name = ['get', 'post', 'put', 'delete','patch']
-
-class FormationViewSet(viewsets.ModelViewSet):
-    #permission_classes = [IsAuthenticated]
-    permission_classes = [IsAuthenticated]
-    authentication_classes = [TokenAuthentication]
-    queryset = formation.objects.all()
-    serializer_class = FormationSerializer
-    http_method_name = ['get', 'post', 'put', 'delete','patch']
-
-class ProfessionalAccomplishmentViewSet(viewsets.ModelViewSet):
-    #permission_classes = [IsAuthenticated]
-    permission_classes = [IsAuthenticated]
-    authentication_classes = [TokenAuthentication]
-    queryset = professionalAccomplishment.objects.all()
-    serializer_class = ProfessionalAccomplishmentSerializer
-    http_method_name = ['get', 'post', 'put', 'delete','patch']
-
-class AwardViewSet(viewsets.ModelViewSet):
-    #permission_classes = [IsAuthenticated]
-    permission_classes = [IsAuthenticated]
-    authentication_classes = [TokenAuthentication]
-    queryset = award.objects.all()
-    serializer_class = AwardSerializer
-    http_method_name = ['get', 'post', 'put', 'delete','patch']
-
-class Social_accountsViewSet(viewsets.ModelViewSet):
-    #permission_classes = [IsAuthenticated]
-    permission_classes = [IsAuthenticated]
-    authentication_classes = [TokenAuthentication]
-    queryset = social_accounts.objects.all()
-    serializer_class = Social_accountsSerializer
-    http_method_name = ['get', 'post', 'put', 'delete','patch']
-
-class ProjectviewSet(viewsets.ModelViewSet):
-    #permission_classes = [IsAuthenticated]
-    permission_classes = [IsAuthenticated]
-    authentication_classes = [TokenAuthentication]
-    queryset = project.objects.all()
-    serializer_class = ProjectSerializer
-    http_method_name = ['get', 'post', 'put', 'delete','patch']
-
-class CertificateViewSet(viewsets.ModelViewSet):
-    #permission_classes = [IsAuthenticated]
-    permission_classes = [IsAuthenticated]
-    authentication_classes = [TokenAuthentication]
-    queryset = certificate.objects.all()
-    serializer_class = CertificateSerializer
-    http_method_name = ['get', 'post', 'put', 'delete','patch']
-
-class VolunteeringViewSet(viewsets.ModelViewSet):
-    #permission_classes = [IsAuthenticated]
-    permission_classes = [IsAuthenticated]
-    authentication_classes = [TokenAuthentication]
-    queryset = volunteering.objects.all()
-    serializer_class = VolunteeringSerializer
-    http_method_name = ['get', 'post', 'put', 'delete','patch']
-
-class Work_experienceViewSet(viewsets.ModelViewSet):
-    #permission_classes = [IsAuthenticated]
-    permission_classes = [IsAuthenticated]
-    authentication_classes = [TokenAuthentication]
-    queryset = work_experience.objects.all()
-    serializer_class = Work_experienceSerializer
-    http_method_name = ['get', 'post', 'put', 'delete','patch']
-
-class FeedbackViewSet(viewsets.ModelViewSet):
-    #permission_classes = [IsAuthenticated]
-    permission_classes = [IsAuthenticated]
-    authentication_classes = [TokenAuthentication]
-    queryset = feedback.objects.all()
-    serializer_class = FeedbackSerializer
-    http_method_name = ['get', 'post', 'put', 'delete','patch']
-
-class MotivationLetterViewSet(viewsets.ModelViewSet):
-    #permission_classes = [IsAuthenticated]
-    permission_classes = [IsAuthenticated]
-    authentication_classes = [TokenAuthentication]
-    queryset = motivationLetter.objects.all()
-    serializer_class = MotivationLetterSerializer
-    http_method_name = ['get', 'post', 'put', 'delete','patch']
-
-class RecommendationLetterViewSet(viewsets.ModelViewSet):
-    permission_classes = [IsAuthenticated]
-    authentication_classes = [TokenAuthentication]
-    
-    queryset = recommendationLetter.objects.all()
-    serializer_class = RecommendationLetterSerializer
-    http_method_name = ['get', 'post', 'put', 'delete','patch']
-
-@api_view(["GET"])
-def get_accomp_by_user_id(request,id):
-    accomp=accomplishment.objects.filter(user=id)
-    return Response(accomp)
-
-def accomp_details_or_update_or_delete(request, pk):
-    accom=get_object_or_404(accomplishment, user=pk)
-    if request.method=='GET':
-        serializer = ProfessionalAccomplishmentSerializer(accom, context={'request': request})
-        return Response(serializer.data)
-    elif request.method=='PUT':
-        serializer = ProfessionalAccomplishmentSerializer(accom, data=request.data, context={'request': request})
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data)
-    elif request.method=='DELETE':
-        accom.delete()
-        return Response(status=200)
-    return Response(status=405)

@@ -27,12 +27,12 @@ class languageform(forms.Form):
     #user=forms.CharField()
 
 class skillform(forms.Form):
-    skill=forms.CharField()
+    name=forms.CharField()
     tool=forms.CharField() 
 
 
 
-class formation(forms.Form):
+class formationform(forms.Form):
     name=forms.CharField()
     establishment=forms.CharField() 
     country_establishment=forms.CharField()
@@ -57,7 +57,7 @@ class awardform(forms.Form):
     recognition=forms.CharField() #kikikiikf
  
 
-class social_accounts(forms.Form):
+class social_accounts_form(forms.Form):
     facebook=forms.CharField()
     github=forms.CharField() 
     linkedin=forms.CharField()
