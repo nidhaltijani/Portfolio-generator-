@@ -16,6 +16,7 @@ urlpatterns = [
     path('formation/', formation_view_create,name="formation"),
     path('language/', language_view_create,name="language"),
     path('social/', social_view_create,name="social"),
+    path('professional/',pro_view_create,name="professional"),
   
     
     #path('oauth/', include('social_django.urls', namespace='social')),

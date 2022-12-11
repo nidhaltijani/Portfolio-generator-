@@ -35,7 +35,7 @@ class PortfolioSerializer(serializers.ModelSerializer):
     #usr=UserSerializer(many=False)
     class Meta:
         model=portfolio
-        fields=['philosophy_statement','about','usr'] #serializes all fields    
+        fields=['philosophy_statement','about'] #serializes all fields    
 
 
 class LanguageSerializer(serializers.ModelSerializer):
@@ -61,7 +61,7 @@ class FormationSerializer(serializers.ModelSerializer):
 class ProfessionalAccomplishmentSerializer(serializers.ModelSerializer):
     class Meta:
         model=professionalAccomplishment
-        fields=[] #serializes all fields    
+        exclude=["portfolio",]  
 
 
 class AwardSerializer(serializers.ModelSerializer):

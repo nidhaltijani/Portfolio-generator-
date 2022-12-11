@@ -141,21 +141,15 @@ select option{
         <div class="shape"></div>
         <div class="shape"></div>
     </div>
-    <form>
+    <form method="post" enctype="multipart/form-data">
         <h3>Professional Accomplishment</h3>
         <label for="text">Professional Accomplishment</label>
-        <input type="text" placeholder="Add a professional accomplishment" id="proacc">
-
-        <label for="text">Type of P.A.</label>
-        <select name=" Pro Accomplishment">
-            <option value="1">Advising</option>
-            <option value="2">partnering</option>
-            <option value="3">examining</option>
-        </select>
+        {%csrf_token%}
+        {{form}}
 
 
-        <button>Add another one</button>
-        <button>Next</button>
+        <!--<button>Add another one</button>-->
+        <button type="submit">Next</button>
 
         </div>
     </form>

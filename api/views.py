@@ -25,6 +25,10 @@ from rest_framework.response import Response
 import requests
 url='http://127.0.0.1:8000/api/'
 
+def get_portfolio_id(id):
+    """Cette fonction n'est pas nécessaire car on a déjà utilisé signals donc user id = portfolio id = profile id"""
+    return portfolio.objects.get(usr=id)
+
 @csrf_exempt
 @api_view(["POST"])
 @permission_classes((AllowAny,))
@@ -79,7 +83,7 @@ def post_or_get_all_skills(request,id):
         serializer=SkillSerializer(data=request.data)
         #serializer["portfolio"]=id
         serializer.is_valid(raise_exception=True)
-        serializer.save(portoflio_id=id)
+        serializer.save(portoflio_id=get_portfolio_id(id).pk)
         return Response(serializer.data, status=201)
     elif request.method=='GET':
         skills=skill.objects.filter(portoflio_id=id)
@@ -141,6 +145,22 @@ def post_or_get_all_social(request,id):
     return Response(status=status.HTTP_405_METHOD_NOT_ALLOWED)
 
 
+# not working
+@csrf_exempt
+@api_view(['GET', 'POST'])
+def post_or_get_all_pro_accomp(request,id):
+    if request.method=='POST':
+        serializer=ProfessionalAccomplishmentSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save(portoflio_id=get_portfolio_id(id).pk)
+        return Response(serializer.data, status=201)
+    elif request.method=='GET':
+        pro_acc=professionalAccomplishment.objects.filter(portoflio_id=get_portfolio_id(id).pk)
+        if len(pro_acc)==0:
+            return Response(status=204)
+        serializer=ProfessionalAccomplishmentSerializer(pro_acc, context={'request': request}, many=True)
+        return Response(serializer.data, status=200)
+    return Response(status=status.HTTP_405_METHOD_NOT_ALLOWED)
 
 class ProfileViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated]

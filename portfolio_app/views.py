@@ -16,6 +16,7 @@ import requests
 #login form 
 from django.http import HttpResponseRedirect,HttpResponse
 from .forms import *
+from django.core.files.storage import FileSystemStorage
 # Create your views here.
 #register is working perfectly
 
@@ -89,13 +90,9 @@ def my_profile(request):
     #if request.method=='POST':
         header = {"Authorization": f"Token {request.session['token']}"}
         #response=requests.delete(f'{url}profile/1/') #workssssssssss
-        response=requests.patch(f"{url}profile/{request.user.pk}/",data=profform.data,headers=header) #khdem zedaaaa
-        redirect('profile')
-    
-       
-            
-       
-    return render(request,'create_certif.html',{'user': 1,'profileform':profform})
+        response=requests.patch(f"{url}profile/{request.user.pk}/",data=profform.data,headers=header) #profile id = user id
+        redirect('profile') 
+    return render(request,'profileForm.html',{'profileform':profform})
 
 
 #hehdy tekhdeeem 
@@ -187,3 +184,12 @@ def social_view_create(request):
         response=requests.post(f"{url}social/{request.user.pk}/",data=form.data,headers=header) 
         return redirect('login')
     return render(request,'social.html',{'form':form})
+
+@login_required(login_url='signin')
+def pro_view_create(request):   
+    form=professionalAccomplishmentForm(request.POST,request.FILES or None) #ne pas faire 2 instances du form
+    if form.is_valid():
+        header = {"Authorization": f"Token {request.session['token']}"}
+        response=requests.post(f"{url}professional/{request.user.pk}/",data=form.data,headers=header) 
+        return redirect('login')
+    return render(request,'ProAccomp.html',{'form':form})

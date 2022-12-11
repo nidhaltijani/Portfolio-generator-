@@ -21,10 +21,25 @@ class portfolioForm(forms.Form):
 
 
 
-class languageform(forms.Form):
+"""class languageform(forms.Form):
     name=forms.CharField()
     typeoflanguage=forms.ChoiceField(choices=language.proficiency.choices)  # fazet l proficiency kifeh lhnee
-    #user=forms.CharField()
+    #user=forms.CharField()"""
+    
+    
+
+class languageform(forms.Form):
+    proficiency= [
+    ('0','No Proficiency'),
+    ('1','Elementary Proficiency'),
+    ('2','Limited Working Proficiency'),
+    ('3','Professional Working Proficiency'),
+    ('4','Full Professional Proficiency'),
+    ('5','Native / Bilingual Proficiency'),
+
+]
+    name=forms.CharField(label="name",max_length=200)
+    typeoflanguage=forms.ChoiceField(widget=forms.RadioSelect,choices=proficiency)
 
 class skillform(forms.Form):
     name=forms.CharField()
@@ -41,15 +56,21 @@ class formationform(forms.Form):
 
 
 
-class accomplishment(forms.Form):
+
+
+
+
+class professionalAccomplishmentForm(forms.Form):
+    accomplishmentCategories=[
+    ("advising",'Spirit category'),
+    ('partnering','Pioneer category'),
+    ('examining','Commitment category'),
+    ]
     title=forms.CharField()
     summary=forms.CharField() 
     justification=forms.FileField()
     date_a=forms.DateField()
-
-
-class professionalAccomplishment(forms.Form):
-    accomp_type=forms.CharField() #uhm naffs lhkeya mte3 enumération
+    accomp_type=forms.MultipleChoiceField(widget=forms.RadioSelect,choices =accomplishmentCategories) 
 
     
 
@@ -116,9 +137,12 @@ class portform(forms.ModelForm):
         exclude=["usr"]
         
 class profileForm(forms.ModelForm):
+    photo=forms.ImageField()
     class Meta:
         model=profile
-        exclude=["usr","photo"]
+        exclude=["usr"]
+        widgets={'photo': forms.FileInput(attrs={'class': 'form-control'}),}
+        
 
 class feedbackForm(forms.ModelForm):
     class Meta:

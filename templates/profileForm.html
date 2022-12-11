@@ -128,24 +128,13 @@
         <div class="shape"></div>
         <div class="shape"></div>
     </div>
-    <form>
+    <form method="post" enctype="multipart/form-data">
         <h3>Create Profile</h3>
         <label>Add your photo</label>
-        <input type="file" accept="image/*" />
-        <label for="name">First Name</label>
-        <input type="text" id="first_name" required>
+        {%csrf_token%}
+        {{profileform}}
 
-        <label for="name">Last Name</label>
-        <input type="text" id="last_name" required>
-
-
-        <label >Phone Number</label>
-        <input type="tel" id="phone" required>
-        <label>Birthday</label>
-        <input type="date" id="bday" required>
-
-
-        <button>Next</button>
+        <button type="submit">Next</button>
 
     </form>
     <canvas hidden></canvas>

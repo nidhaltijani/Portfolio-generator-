@@ -51,6 +51,7 @@ urlpatterns = [
      path(r'formation/<int:id>/',post_or_get_all_formation,name="formation"),
      path(r'language/<int:id>/',post_or_get_all_language,name="language"),
      path(r'social/<int:id>/',post_or_get_all_social,name="social"),
+     path(r'professional/<int:id>/',post_or_get_all_pro_accomp,name="pro_acc"),
      
     # path('',include(user_router.urls)),
      #path(r'connect/',include("rest_framework.urls")),
