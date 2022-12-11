@@ -1,5 +1,6 @@
 from django.urls import include,path
 from rest_framework import routers
+#from rest_framework_nested import routers
 from .views import *
 import rest_framework
 #urls using ModelViewSet
@@ -16,7 +17,7 @@ router.register(r'users',UserViewSet)
 #the prefix r is used to indicate that the string is a raw string (not interpret the backslash as an escape character)
 
 #router.register(r'users',UserViewSet)  returns all users no need for it only for admin
-router.register(r'portfolios',PortfolioViewSet) 
+#router.register(r'portfolio',PortfolioViewSet,basename="portfolio") 
 router.register(r'profile',ProfileViewSet,basename="profile") 
 router.register(r'Languages',LanguageViewSet) 
 router.register(r'skills',SkillViewSet) 
@@ -32,10 +33,33 @@ router.register(r'Motivation_Letter',MotivationLetterViewSet)
 router.register(r'Recommendation_Letters',RecommendationLetterViewSet) 
 
 
+
+"""
+router1=routers.SimpleRouter()
+router1.register('portfolio',PortfolioViewSet,basename="portfolio")
+portfolio_router=routers.NestedSimpleRouter(
+    router1,
+    r'usr',
+    lookup='usr'
+)
+
+portfolio_router.register(
+    r'books',
+    views.BookViewSet,
+    basename='library-book'
+)
+"""
+
+
+
 #add the router to the urlpatterns
 urlpatterns = [
      path('', include(router.urls)),
      path(r'auth/',login,name="user authentif API"),
+     path(r'register/',signup,name="signup"),
+     path(r'accomp/<int:id>/',get_accomp_by_user_id,name="get_accom"),
+     
+    # path('',include(user_router.urls)),
      #path(r'connect/',include("rest_framework.urls")),
     # path('try/', get_token,name="get"),
      

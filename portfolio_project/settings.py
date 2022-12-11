@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     #'social_django',
     'rest_framework.authtoken',
     #"corsheaders",
+    #"rest_framework_nested",
 ]
 
 MIDDLEWARE = [
@@ -55,6 +56,7 @@ MIDDLEWARE = [
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
+    #'django.contrib.sessions.middleware.SessionMiddleware'
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     
     
@@ -171,3 +173,4 @@ CORS_ALLOWED_ORIGINS = [
    
 ]
 """
+MESSAGE_STORAGE = 'django.contrib.messages.storage.cookie.CookieStorage'

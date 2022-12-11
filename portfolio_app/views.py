@@ -23,31 +23,15 @@ from .forms import *
 url='http://127.0.0.1:8000/api/'
 
 
+# not working
 def signup(request):
-    if request.method=='POST':
-        signform = signupForm(request.POST)
+    
+        signform = signupForm(request.POST or None)
+        res=""
         if signform.is_valid():
-            email=signform.cleaned_data.get("email")
-            password=signform.cleaned_data.get("password")
-            password2=signform.cleaned_data.get("password2")
-            if password==password2:
-                if user.objects.filter(email=email).exists():
-                    messages.info(request,'email already taken')
-                    return redirect('signup')
-                else :
-                    serializer = RegisterSerializer(data=signform.cleaned_data)
-                    serializer.is_valid(raise_exception=True)   #if anything not valid, raise exception
-                    serializer.save()
-                    logform = loginform()
-                    messages.info(request,'account created successfully') # tnajem taamel moshkla khatr nafsha byn signup w login
-                    return redirect('signin')
-            else :
-                messages.info(request,'Password doesnt match')
-                return redirect('signup') # to signup view
-    else :
-        signform=signupForm()
-        return render(request,'signup.html',{"form":signform})
-
+            res=requests.post(f'{url}register/',data=signform.data)
+            redirect('login')
+        return render(request,'signup.html',{"form":signform,"response":res})
 
 
 def signin(request):
@@ -59,37 +43,51 @@ def signin(request):
             usr=auth.authenticate(email=email,password=password)
             if usr is not None:
                 auth.login(request,usr)
-                return redirect('/portfolio')
+                response=requests.post(f"{url}auth/",data={"email":email,"password":password}) #json only uses double quotes
+                request.session['token']=response.json()["token"]
+                
+                return redirect('about')
             else :
-                messages.info(request,'Invalid credentials!')
-                return redirect('signin') # to signup view
+                messages.error(request,'Invalid credentials!')
+                #return redirect('login') # to signup view
+                return render(request,'login.html',{'form':logform})
     else :
         logform = loginform()
-        return render(request,'login.html',{'form':loginform})
-   
-   
-    
-@login_required(login_url='signin') 
+        return render(request,'login.html',{'form':logform})
+
+@login_required(login_url='login') 
 def logout(request):
     auth.logout(request)
-    return redirect('signin')
+    for key in request.session.keys():
+        del request.session[key]
+    return redirect('login')
 
-def get_token(): # problem hereee
-    response=requests.post(f"{url}auth/",data={"email":"last@last.last","password":"last"}) #json only uses double quotes
-    return response.json()["token"] # we should only take the tokennnn
-    #return HttpResponse(response.text)
+
+
+#tekhdem
+@login_required(login_url='login') 
+def about(request):
+    porform=portfolioForm(request.POST or None)
+    if porform.is_valid():
+        header = {"Authorization": f"Token {request.session['token']}"}
+        #res=requests.get(f'{url}portfolio/2/')
+        response=requests.patch(f'{url}portfolio/{request.user.pk}/',data=porform.data,headers=header)
+        return redirect('login')
+    return render(request,"about.html",{"form":porform})
+    
 
 #@login_required(login_url='signin')
 #enfin khedmet bel authentificationnnnnnnnn
+#update profile
 def my_profile(request):
     #user_profile=request.user
     
     profform=profileForm(request.POST,request.FILES or None) #nahyna user_profile w hatyna 1 pour tester
-    
-    if request.method=='POST':
-        header = {"Authorization": f"Token {get_token()}"}
+    if profform.is_valid():
+    #if request.method=='POST':
+        header = {"Authorization": f"Token {request.session['token']}"}
         #response=requests.delete(f'{url}profile/1/') #workssssssssss
-        response=requests.patch(f"{url}profile/2/",data=profform.data,headers=header) #khdem zedaaaa
+        response=requests.patch(f"{url}profile/{request.user.pk}/",data=profform.data,headers=header) #khdem zedaaaa
         redirect('profile')
     
        
@@ -99,6 +97,9 @@ def my_profile(request):
 
 
 #hehdy tekhdeeem 
+def create_accomplishment(request):
+    response=requests.get(f'{url}accomp/{request.user.pk}')
+    return redirect('login')
 
 @login_required(login_url='signin')
 def create_update_delete(request):
@@ -112,7 +113,6 @@ def create_update_delete(request):
         return render(request,'portfolio.html',{'user': user_profile,'portfo':portfo})
     return render(request,'portfolio.html',{'user': user_profile,'portfo':portfo})
 
-
 @login_required(login_url='signin')
 def provide_feedback(request):
     user_profile = request.user
@@ -125,3 +125,17 @@ def provide_feedback(request):
             return redirect('feedback')
         return render(request,'feedback.html',{'user': user_profile,'feedback':fbkform})
     return render(request,'feedback.html',{'user': user_profile,'feedback':fbkform})
+
+
+def language_view_create(request):   
+    language_f=languageform(request.POST or None) #ne pas faire 2 instances du form
+    if language_f.is_valid():
+        post_data=language_f.data
+        """post_data._mutable=True
+        post_data['user']=request.user.pk
+        post_data._mutable=False"""
+        header = {"Authorization": f"Token {request.session['token']}"}
+        response=requests.post(f"{url}Languages/",data=post_data,headers=header) 
+        redirect('lang')
+     
+    return render(request,'language.html',{'languageForm':language_f})

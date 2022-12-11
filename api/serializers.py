@@ -32,9 +32,10 @@ class ProfileSerializer(serializers.ModelSerializer):
         model=profile
         fields='__all__'
 class PortfolioSerializer(serializers.ModelSerializer):
+    usr=UserSerializer(many=False)
     class Meta:
         model=portfolio
-        fields='__all__' #serializes all fields    
+        fields=['philosophy_statement','about','usr'] #serializes all fields    
 
 
 class LanguageSerializer(serializers.ModelSerializer):

@@ -16,15 +16,15 @@ class signupForm(forms.Form):
     
 class portfolioForm(forms.Form):
     philosophy_statement=forms.CharField()
-    about=forms.Textarea() #Charfield ?
+    about=forms.CharField() #Charfield ?
 
 
 
 
-class language(forms.Form):
+class languageform(forms.Form):
     name=forms.CharField()
     typeoflanguage=forms.ChoiceField(choices=language.proficiency.choices)  # fazet l proficiency kifeh lhnee
-
+    #user=forms.CharField()
 
 class language(forms.Form):
     skill=forms.CharField()
@@ -53,7 +53,7 @@ class professionalAccomplishment(forms.Form):
 
     
 
-class award(forms.Form):
+class awardform(forms.Form):
     recognition=forms.CharField() #kikikiikf
  
 

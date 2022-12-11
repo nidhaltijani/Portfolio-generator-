@@ -1,5 +1,5 @@
 
-from django.shortcuts import redirect
+from django.shortcuts import get_object_or_404, redirect
 from requests import Response
 from rest_framework import viewsets
 from .models import  *
@@ -39,6 +39,9 @@ def login(request):
                         status=HTTP_404_NOT_FOUND)
     token, _ = Token.objects.get_or_create(user=user)
     #redirect("profile")
+    #user_id=user.objects.filter(email=email)
+    #portfolio_id=portfolio.objects.get_or_create(usr=user_id)
+    #,"user_id":user_id,"portfolio_id":portfolio_id
     return Response({'token': token.key},
                     status=HTTP_200_OK)
 """
@@ -51,6 +54,33 @@ class UserAuthentication(ObtainAuthToken):
         return Response(token.key)
 
 """
+@csrf_exempt
+@api_view(["POST"])
+@permission_classes((AllowAny,))
+def signup(request):
+    if request.method=='POST':
+        email = request.data.get("email")
+        password = request.data.get("password")
+        password2 = request.data.get("password2")
+        
+        if password==password2:
+            if user.objects.filter(email=email).exists():
+                return Response({'error': 'Email already exists'})
+                        #status)
+                
+            else :
+                serializer = RegisterSerializer(data=request.data)
+                serializer.is_valid(raise_exception=True)   #if anything not valid, raise exception
+                serializer.save()
+                
+                return Response({'success': "Account createdd succesfully"})
+                  #  status=HTTP) # tnajem taamel moshkla khatr nafsha byn signup w login
+               
+        else :
+            return Response({'error': 'Password doesnt match'})
+            
+   
+
 
 
 class UserViewSet(viewsets.ModelViewSet):
@@ -61,94 +91,147 @@ class UserViewSet(viewsets.ModelViewSet):
 class ProfileViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated]
     authentication_classes = [TokenAuthentication]
-    queryset = profile.objects.all()
+    #queryset = profile.objects.all()
     serializer_class = ProfileSerializer
     http_method_name = ['get', 'post', 'put', 'delete','patch']
+    def get_queryset(self):
+        """
+        This view should return a list of all the purchases for
+        the user as determined by the username portion of the URL.
+        """
+        #username = self.kwargs['username']
+        return profile.objects.filter(usr__id=self.request.user.pk)
+    
     
 
 class PortfolioViewSet(viewsets.ModelViewSet):
     #permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated]
+    authentication_classes = [TokenAuthentication]
     queryset = portfolio.objects.all()
     serializer_class = PortfolioSerializer
     http_method_name = ['get', 'post', 'put', 'delete','patch']
-
+    
 class LanguageViewSet(viewsets.ModelViewSet):
     #permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated]
+    authentication_classes = [TokenAuthentication]
     queryset = language.objects.all()
     serializer_class = LanguageSerializer
     http_method_name = ['get', 'post', 'put', 'delete','patch']
 
 class SkillViewSet(viewsets.ModelViewSet):
     #permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated]
+    authentication_classes = [TokenAuthentication]
     queryset = skill.objects.all()
     serializer_class = SkillSerializer
     http_method_name = ['get', 'post', 'put', 'delete','patch']
 
 class FormationViewSet(viewsets.ModelViewSet):
     #permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated]
+    authentication_classes = [TokenAuthentication]
     queryset = formation.objects.all()
     serializer_class = FormationSerializer
     http_method_name = ['get', 'post', 'put', 'delete','patch']
 
 class ProfessionalAccomplishmentViewSet(viewsets.ModelViewSet):
     #permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated]
+    authentication_classes = [TokenAuthentication]
     queryset = professionalAccomplishment.objects.all()
     serializer_class = ProfessionalAccomplishmentSerializer
     http_method_name = ['get', 'post', 'put', 'delete','patch']
 
 class AwardViewSet(viewsets.ModelViewSet):
     #permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated]
+    authentication_classes = [TokenAuthentication]
     queryset = award.objects.all()
     serializer_class = AwardSerializer
     http_method_name = ['get', 'post', 'put', 'delete','patch']
 
 class Social_accountsViewSet(viewsets.ModelViewSet):
     #permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated]
+    authentication_classes = [TokenAuthentication]
     queryset = social_accounts.objects.all()
     serializer_class = Social_accountsSerializer
     http_method_name = ['get', 'post', 'put', 'delete','patch']
 
 class ProjectviewSet(viewsets.ModelViewSet):
     #permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated]
+    authentication_classes = [TokenAuthentication]
     queryset = project.objects.all()
     serializer_class = ProjectSerializer
     http_method_name = ['get', 'post', 'put', 'delete','patch']
 
 class CertificateViewSet(viewsets.ModelViewSet):
     #permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated]
+    authentication_classes = [TokenAuthentication]
     queryset = certificate.objects.all()
     serializer_class = CertificateSerializer
     http_method_name = ['get', 'post', 'put', 'delete','patch']
 
 class VolunteeringViewSet(viewsets.ModelViewSet):
     #permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated]
+    authentication_classes = [TokenAuthentication]
     queryset = volunteering.objects.all()
     serializer_class = VolunteeringSerializer
     http_method_name = ['get', 'post', 'put', 'delete','patch']
 
 class Work_experienceViewSet(viewsets.ModelViewSet):
     #permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated]
+    authentication_classes = [TokenAuthentication]
     queryset = work_experience.objects.all()
     serializer_class = Work_experienceSerializer
     http_method_name = ['get', 'post', 'put', 'delete','patch']
 
 class FeedbackViewSet(viewsets.ModelViewSet):
     #permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated]
+    authentication_classes = [TokenAuthentication]
     queryset = feedback.objects.all()
     serializer_class = FeedbackSerializer
     http_method_name = ['get', 'post', 'put', 'delete','patch']
 
 class MotivationLetterViewSet(viewsets.ModelViewSet):
     #permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated]
+    authentication_classes = [TokenAuthentication]
     queryset = motivationLetter.objects.all()
     serializer_class = MotivationLetterSerializer
     http_method_name = ['get', 'post', 'put', 'delete','patch']
 
 class RecommendationLetterViewSet(viewsets.ModelViewSet):
-    #permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated]
+    authentication_classes = [TokenAuthentication]
     
     queryset = recommendationLetter.objects.all()
     serializer_class = RecommendationLetterSerializer
     http_method_name = ['get', 'post', 'put', 'delete','patch']
-    
-    
+
+@api_view(["GET"])
+def get_accomp_by_user_id(request,id):
+    accomp=accomplishment.objects.filter(user=id)
+    return Response(accomp)
+
+def accomp_details_or_update_or_delete(request, pk):
+    accom=get_object_or_404(accomplishment, user=pk)
+    if request.method=='GET':
+        serializer = ProfessionalAccomplishmentSerializer(accom, context={'request': request})
+        return Response(serializer.data)
+    elif request.method=='PUT':
+        serializer = ProfessionalAccomplishmentSerializer(accom, data=request.data, context={'request': request})
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+    elif request.method=='DELETE':
+        accom.delete()
+        return Response(status=200)
+    return Response(status=405)

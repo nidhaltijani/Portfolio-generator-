@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Create profile</title>
+
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;600&display=swap" rel="stylesheet">
+    <!--Stylesheet-->
+    <style media="screen">
+        *,
+        *:before,
+        *:after {
+            padding: 0;
+            margin: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: #080710;
+        }
+
+        .background {
+            width: 430px;
+            height: 520px;
+            position: absolute;
+            transform: translate(-50%, -50%);
+            left: 50%;
+            top: 50%;
+        }
+
+        .background .shape {
+            height: 200px;
+            width: 200px;
+            position: absolute;
+            border-radius: 50%;
+        }
+
+        .shape:first-child {
+            background: linear-gradient(#1845ad,
+                    #23a2f6);
+            left: -80px;
+            top: -80px;
+        }
+
+        .shape:last-child {
+            background: linear-gradient(to right,
+                    #ff512f,
+                    #f09819);
+            right: -30px;
+            bottom: -80px;
+        }
+
+        form {
+            height: 750px;
+            width: 400px;
+            background-color: rgba(255, 255, 255, 0.13);
+            position: absolute;
+            transform: translate(-50%, -50%);
+            top: 50%;
+            left: 50%;
+            border-radius: 10px;
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 0 40px rgba(8, 7, 16, 0.6);
+            padding: 50px 35px;
+            margin-top: 50px;
+        }
+
+        form * {
+            font-family: 'Poppins', sans-serif;
+            color: #ffffff;
+            letter-spacing: 0.5px;
+            outline: none;
+            border: none;
+        }
+
+        form h3 {
+            font-size: 32px;
+            font-weight: 500;
+            line-height: 42px;
+            text-align: center;
+        }
+
+        label {
+            display: block;
+            margin-top: 30px;
+            font-size: 16px;
+            font-weight: 500;
+        }
+
+        input {
+            display: block;
+            height: 50px;
+            width: 100%;
+            background-color: rgba(255, 255, 255, 0.07);
+            border-radius: 3px;
+            padding: 0 10px;
+            margin-top: 8px;
+            font-size: 14px;
+            font-weight: 300;
+        }
+
+        ::placeholder {
+            color: #e5e5e5;
+        }
+
+        button {
+            margin-top: 20px;
+            width: 100%;
+            background-color: #ffffff;
+            color: #080710;
+            padding: 15px 0;
+            font-size: 18px;
+            font-weight: 600;
+            border-radius: 5px;
+            cursor: pointer;
+            position: relative;
+        }
+
+
+    </style>
+</head>
+
+<body>
+    <div class="background">
+        <div class="shape"></div>
+        <div class="shape"></div>
+    </div>
+    <form>
+        <h3>Create Profile</h3>
+        <label>Add your photo</label>
+        <input type="file" accept="image/*" />
+        <label for="name">First Name</label>
+        <input type="text" id="first_name" required>
+
+        <label for="name">Last Name</label>
+        <input type="text" id="last_name" required>
+
+
+        <label >Phone Number</label>
+        <input type="tel" id="phone" required>
+        <label>Birthday</label>
+        <input type="date" id="bday" required>
+
+
+        <button>Next</button>
+
+    </form>
+    <canvas hidden></canvas>
+    <script>
+    // crop the image and show it 
+        // get a reference to the file input
+        const fileInput = document.querySelector('input');
+
+        // get a reference to the output canvas
+        const canvas = document.querySelector('canvas');
+
+        // listen for the change event so we can capture the file
+        fileInput.addEventListener('change', (e) => {
+            // get a reference to the file
+            const file = e.target.files[0];
+
+            // let's load the image data
+            const image = new Image();
+            image.onload = () => {
+                // use min size so we get a square
+                const size = Math.min(image.naturalWidth, image.naturalHeight);
+
+                // let's update the canvas size
+                canvas.width = size;
+                canvas.height = size;
+
+                // draw image to canvas
+                const ctx = canvas.getContext('2d');
+                ctx.drawImage(image, 0, 0);
+
+                // only draw image where mask is
+                ctx.globalCompositeOperation = 'destination-in';
+
+                // draw our circle mask
+                ctx.fillStyle = '#000';
+                ctx.beginPath();
+                ctx.arc(
+                    size * 0.5, // x
+                    size * 0.5, // y
+                    size * 0.5, // radius
+                    0, // start angle
+                    2 * Math.PI // end angle
+                );
+                ctx.fill();
+
+                // restore to default composite operation (is draw over current image)
+                ctx.globalCompositeOperation = 'source-over';
+
+                // show canvas
+                canvas.hidden = false;
+            };
+            image.src = URL.createObjectURL(file);
+        });
+    </script>
+
+</body>
+
+</html>
