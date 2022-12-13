@@ -68,7 +68,7 @@ class AwardSerializer(serializers.ModelSerializer):
     class Meta:
         model=award
         #fields=["recognition"] #serializes all fields    
-        exclude=["portoflio"]
+        exclude=["portfolio","photo"]
 
 class Social_accountsSerializer(serializers.ModelSerializer):
     class Meta:

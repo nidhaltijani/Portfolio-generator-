@@ -85,7 +85,7 @@ def about(request):
 
 def simple_upload(request):
     if request.method == 'POST' and request.FILES['photo']:
-        myfile = request.FILES['photo']
+        myfile = request.FILES.get('photo')
         fs = FileSystemStorage()
         filename = fs.save(myfile.name, myfile)
         uploaded_file_url = fs.url(filename)
@@ -279,3 +279,20 @@ def project_view_create(request):
         return render(request,'project.html',{'form':form})
     form=projectForm()
     return render(request,'project.html',{'form':form})
+
+
+@login_required(login_url='signin')
+def award_view_create(request):  
+    if request.method=='POST':
+        form=awardform(request.POST) #ne pas faire 2 instances du form
+        if form.is_valid():
+            #photo_url=simple_upload(request)
+            header = {"Authorization": f"Token {request.session['token']}"}
+            response=requests.post(f"{url}award/{request.user.pk}/",data=form.data,headers=header) 
+            """result=response.json()
+            res=requests.patch(f"{url}awardview/{result['id']}/",data={"image_url":photo_url},headers=header) """
+           
+            return redirect('login')
+        return render(request,'award.html',{'form':form})
+    form=awardform()
+    return render(request,'award.html',{'form':form})

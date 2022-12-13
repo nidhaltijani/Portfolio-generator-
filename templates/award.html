@@ -141,20 +141,12 @@
         <div class="shape"></div>
         <div class="shape"></div>
     </div>
-    <form>
+    
+    <form method="post">
         <h3>Awards</h3>
-
-        <label for="email">Add award</label>
-        <input type="text" placeholder="tell us about it" id="awrd">
-
-        <label for="file">Add award</label>
-        <select name="award" id="award">
-            <option value="nat">National</option>
-            <option value="internar">International</option>
-        </select>
-
-        <button>Next</button>
-        </div>
+        {%csrf_token%}
+        {{form}}
+        <button type="submit">Next</button>
     </form>
 </body>
 

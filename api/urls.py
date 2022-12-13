@@ -22,6 +22,7 @@ router.register(r'profile',ProfileViewSet,basename="profile")
 router.register(r'portfolio',PortfolioViewSet) 
 router.register(r'proview',ProfessionalAccomplishmentViewSet) 
 router.register(r'projectview',ProjectviewSet) 
+router.register(r'awardview',AwardViewSet) 
 
 
 
@@ -60,6 +61,7 @@ urlpatterns = [
      path(r'motiv/<int:id>/',post_or_get_all_motiv_letter,name="motiv"),
      path(r'volunt/<int:id>/',post_or_get_all_volun,name="volunt"),
      path(r'proj/<int:id>/',post_or_get_all_projects,name="proj"),
+     path(r'award/<int:id>/',post_or_get_all_awards,name="award"),
      
     # path('',include(user_router.urls)),
      #path(r'connect/',include("rest_framework.urls")),

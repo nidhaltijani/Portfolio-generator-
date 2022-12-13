@@ -76,7 +76,12 @@ class professionalAccomplishmentForm(forms.Form):
     
 
 class awardform(forms.Form):
-    recognition=forms.CharField() #kikikiikf
+    recog=[("nat","national recognition"),('inter','international recognition')]
+    title=forms.CharField()
+    summary=forms.CharField() 
+    #photo=forms.FileField(required=False)
+    date_a=forms.DateField()
+    recognition=forms.ChoiceField(choices=recog)
  
 
 class social_accounts_form(forms.Form):

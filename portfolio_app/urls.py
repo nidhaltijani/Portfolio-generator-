@@ -12,7 +12,7 @@ urlpatterns = [
     path('logout/', logout,name="logout"),
     path('signup/', signup,name="signup"),
     path('acc/', create_accomplishment,name="signup"),
-    path('award/', create_accomplishment,name="signup"),
+    #path('award/', create_accomplishment,name="signup"),
     path('skill/', skill_view_create,name="skill"),# apartir d'ici temshy
     path('skillget/', skills_get,name="skillget"),
     path('formationget/', formations_get,name="formationget"),
@@ -26,6 +26,7 @@ urlpatterns = [
     path('motivation/',motiv_view_create,name="motivation"), # not working
     path('volunteering/',volunt_view_create,name="volunteering"), # not working
     path('project/',project_view_create,name="project"), # not working
+    path('award/',award_view_create,name="award"), # not working
   
     
     #path('oauth/', include('social_django.urls', namespace='social')),

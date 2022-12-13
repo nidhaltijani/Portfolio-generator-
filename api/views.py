@@ -264,7 +264,21 @@ def post_or_get_all_projects(request,id):
         return Response(serializer.data, status=200)
     return Response(status=status.HTTP_405_METHOD_NOT_ALLOWED)
 
-
+@csrf_exempt
+@api_view(['GET', 'POST'])
+def post_or_get_all_awards(request,id):
+    if request.method=='POST':
+        serializer=AwardSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save(portfolio_id=get_portfolio_id(id).pk)
+        return Response(serializer.data, status=201)
+    elif request.method=='GET':
+        pro_acc=award.objects.filter(portfolio_id=get_portfolio_id(id).pk)
+        if len(pro_acc)==0:
+            return Response(status=204)
+        serializer=AwardSerializer(pro_acc, context={'request': request}, many=True)
+        return Response(serializer.data, status=200)
+    return Response(status=status.HTTP_405_METHOD_NOT_ALLOWED)
 
 class ProfileViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated]
@@ -299,4 +313,10 @@ class ProjectviewSet(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated]
     queryset = project.objects.all()
     serializer_class = ProjectSerializer
+    http_method_name = ['get', 'post', 'put', 'delete','patch']
+    
+class AwardViewSet(viewsets.ModelViewSet):
+    permission_classes = [IsAuthenticated]
+    queryset = award.objects.all()
+    serializer_class = AwardSerializer
     http_method_name = ['get', 'post', 'put', 'delete','patch']
