@@ -23,6 +23,8 @@ urlpatterns = [
     path('certificate/', certif_view_create,name="certif"),
     path('recommendation/', recom_view_create,name="recom"),
     path('professional/',pro_view_create,name="professional"), # not working
+    path('motivation/',motiv_view_create,name="motivation"), # not working
+    path('volunteering/',volunt_view_create,name="volunteering"), # not working
   
     
     #path('oauth/', include('social_django.urls', namespace='social')),

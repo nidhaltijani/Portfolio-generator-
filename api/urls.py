@@ -55,6 +55,8 @@ urlpatterns = [
      path(r'work/<int:id>/',post_or_get_all_work,name="work"),
      path(r'certif/<int:id>/',post_or_get_all_certif,name="certif"),
      path(r'recom/<int:id>/',post_or_get_all_recom_letter,name="recom"),
+     path(r'motiv/<int:id>/',post_or_get_all_motiv_letter,name="motiv"),
+     path(r'volunt/<int:id>/',post_or_get_all_volun,name="volunt"),
      
     # path('',include(user_router.urls)),
      #path(r'connect/',include("rest_framework.urls")),

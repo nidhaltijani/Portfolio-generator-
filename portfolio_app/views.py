@@ -229,6 +229,24 @@ def recom_view_create(request):
         return redirect('login')
     return render(request,'recom_letter.html',{'form':form})
 
+@login_required(login_url='signin')
+def motiv_view_create(request):   
+    form=motivationLetter(request.POST or None) #ne pas faire 2 instances du form
+    if form.is_valid():
+        header = {"Authorization": f"Token {request.session['token']}"}
+        response=requests.post(f"{url}motiv/{request.user.pk}/",data=form.data,headers=header) 
+        return redirect('login')
+    return render(request,'motivation_letter.html',{'form':form})
+
+@login_required(login_url='signin')
+def volunt_view_create(request):   
+    form=volunteering(request.POST or None) #ne pas faire 2 instances du form
+    if form.is_valid():
+        header = {"Authorization": f"Token {request.session['token']}"}
+        response=requests.post(f"{url}volunt/{request.user.pk}/",data=form.data,headers=header) 
+        return redirect('login')
+    return render(request,'volunteering.html',{'form':form})
+
 #not working
 @login_required(login_url='signin')
 def pro_view_create(request):  

@@ -195,6 +195,42 @@ def post_or_get_all_recom_letter(request,id):
         return Response(serializer.data, status=200)
     return Response(status=status.HTTP_405_METHOD_NOT_ALLOWED)
 
+
+@csrf_exempt
+@api_view(['GET', 'POST'])
+def post_or_get_all_motiv_letter(request,id):
+    if request.method=='POST':
+        serializer=MotivationLetterSerializer(data=request.data)
+        #serializer["portfolio"]=id
+        serializer.is_valid(raise_exception=True)
+        serializer.save(portfolio_id=id)
+        return Response(serializer.data, status=201)
+    elif request.method=='GET':
+        accounts=motivationLetter.objects.filter(portoflio_id=id)
+        if len(accounts)==0:
+            return Response(status=204)
+        serializer=MotivationLetterSerializer(accounts, context={'request': request}, many=True)
+        return Response(serializer.data, status=200)
+    return Response(status=status.HTTP_405_METHOD_NOT_ALLOWED)
+
+@csrf_exempt
+@api_view(['GET', 'POST'])
+def post_or_get_all_volun(request,id):
+    if request.method=='POST':
+        serializer=VolunteeringSerializer(data=request.data)
+        #serializer["portfolio"]=id
+        serializer.is_valid(raise_exception=True)
+        serializer.save(portoflio_id=id)
+        return Response(serializer.data, status=201)
+    elif request.method=='GET':
+        accounts=volunteering.objects.filter(portoflio_id=id)
+        if len(accounts)==0:
+            return Response(status=204)
+        serializer=VolunteeringSerializer(accounts, context={'request': request}, many=True)
+        return Response(serializer.data, status=200)
+    return Response(status=status.HTTP_405_METHOD_NOT_ALLOWED)
+
+
 # not working
 @csrf_exempt
 @api_view(['GET', 'POST'])

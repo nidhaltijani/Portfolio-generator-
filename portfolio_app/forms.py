@@ -148,8 +148,9 @@ class letter(forms.Form):
 
 
 class motivationLetter(forms.Form):
-    pass #hay fergha hedhy khaterha elle hérite koll chay ml lettre kifh naamlouolha ??
-
+    letter=forms.CharField(widget=forms.TextInput())
+    date_of_letter=forms.DateField()
+    
 class recommendationLetter(forms.Form):
     writer=forms.CharField()
     occupation=forms.CharField() 

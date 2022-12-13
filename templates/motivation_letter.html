@@ -137,8 +137,8 @@
         <div class="shape"></div>
     </div>
     <form method="post">
-        <h3>Letters</h3>
-
+        <h3>Motivation letter</h3>
+        {%csrf_token%}
         {{form}}
 
         <button type="submit">Next</button>

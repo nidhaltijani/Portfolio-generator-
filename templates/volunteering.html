@@ -125,22 +125,12 @@
         <div class="shape"></div>
         <div class="shape"></div>
     </div>
-    <form>
+    <form method="post">
         <h3>Volunteering</h3>
-
-        <label for="text">position</label>
-        <input type="text" placeholder="tell us about your volunteering exp.." id="Skills">
-
-        <label for="text">Organization</label>
-        <input type="text" placeholder="Organization" id="org">
-        <label for="date">Start date</label>
-        <input type="date" id="date">
+        {%csrf_token%}
+        {{form}}
         
-        <label for="date">End date</label>
-        <input type="date" id="date">
-
-
-        <button>Next</button>
+        <button type="submit">Next</button>
         </div>
     </form>
 </body>

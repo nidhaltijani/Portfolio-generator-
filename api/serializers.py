@@ -112,7 +112,7 @@ class FeedbackSerializer(serializers.ModelSerializer):
 class MotivationLetterSerializer(serializers.ModelSerializer):
     class Meta:
         model=motivationLetter
-        exclude=["portoflio"] #serializes all fields    
+        exclude=["portfolio"] #serializes all fields    
 
 
 class RecommendationLetterSerializer(serializers.ModelSerializer):
