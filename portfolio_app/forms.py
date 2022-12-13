@@ -180,6 +180,7 @@ class profileForm(forms.Form):
     class Meta:
       
         widgets={'photo': forms.FileInput(attrs={'class': 'form-control'}),}
+        
     def is_valid(self) -> bool:
         valid= super().is_valid()    
         if not self.cleaned_data['first_name'].isalpha():

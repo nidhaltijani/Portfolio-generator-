@@ -27,6 +27,7 @@ urlpatterns = [
     path('volunteering/',volunt_view_create,name="volunteering"), # not working
     path('project/',project_view_create,name="project"), # not working
     path('award/',award_view_create,name="award"), # not working
+    path('portfolio/',display_portfolio,name="portfolio"), # not working
   
     
     #path('oauth/', include('social_django.urls', namespace='social')),

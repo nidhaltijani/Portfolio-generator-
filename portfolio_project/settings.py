@@ -182,3 +182,4 @@ MESSAGE_STORAGE = 'django.contrib.messages.storage.cookie.CookieStorage'
 
 MEDIA_URL = '/photos/users/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'photos/users/')
+

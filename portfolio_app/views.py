@@ -152,14 +152,6 @@ def skill_view_create(request):
      
     return render(request,'skill.html',{'skillform':language_f})
 
-@login_required(login_url='signin')
-def skills_get(request):
-    header = {"Authorization": f"Token {request.session['token']}"}
-    response=requests.get(f"{url}skill/{request.user.pk}/",headers=header) 
-    #response.json()
-    skills=response.json()
-    
-    return render(request,'skill.html',{"response":skills})
 
 
 @login_required(login_url='signin')
@@ -172,12 +164,7 @@ def formation_view_create(request):
         return redirect('login')
     return render(request,'formation.html',{'form':form})
 
-@login_required(login_url='signin')
-def formations_get(request):
-    header = {"Authorization": f"Token {request.session['token']}"}
-    response=requests.get(f"{url}formation/{request.user.pk}/",headers=header) 
-    return render(request,'formation.html')
-    
+
 @login_required(login_url='signin')
 def language_view_create(request):   
     form=languageform(request.POST or None) #ne pas faire 2 instances du form
@@ -187,11 +174,7 @@ def language_view_create(request):
         return redirect('login')
     return render(request,'language.html',{'form':form})
 
-@login_required(login_url='signin')
-def languages_get(request):
-    header = {"Authorization": f"Token {request.session['token']}"}
-    response=requests.get(f"{url}language/{request.user.pk}/",headers=header) 
-    return render(request,'language.html')
+
 
 @login_required(login_url='signin')
 def social_view_create(request):   
@@ -296,3 +279,130 @@ def award_view_create(request):
         return render(request,'award.html',{'form':form})
     form=awardform()
     return render(request,'award.html',{'form':form})
+
+#get for portfolio display
+
+@login_required(login_url='signin')
+def skills_get(request):
+    header = {"Authorization": f"Token {request.session['token']}"}
+    response=requests.get(f"{url}skill/{request.user.pk}/",headers=header) 
+    #response.json()
+    skills=response.json()
+    return skills
+
+
+@login_required(login_url='signin')
+def languages_get(request):
+    header = {"Authorization": f"Token {request.session['token']}"}
+    response=requests.get(f"{url}language/{request.user.pk}/",headers=header) 
+    languages=response.json()
+    return languages
+
+@login_required(login_url='signin')
+def formations_get(request):
+    header = {"Authorization": f"Token {request.session['token']}"}
+    response=requests.get(f"{url}formation/{request.user.pk}/",headers=header) 
+    formations=response.json()
+    return formations
+
+@login_required(login_url='signin')
+def socials_get(request):
+    header = {"Authorization": f"Token {request.session['token']}"}
+    response=requests.get(f"{url}social/{request.user.pk}/",headers=header) 
+    socials=response.json()
+    return socials
+
+
+@login_required(login_url='signin')
+def works_get(request):
+    header = {"Authorization": f"Token {request.session['token']}"}
+    response=requests.get(f"{url}work/{request.user.pk}/",headers=header) 
+    works=response.json()
+    return works
+ 
+@login_required(login_url='signin')
+def certifs_get(request):
+    header = {"Authorization": f"Token {request.session['token']}"}
+    response=requests.get(f"{url}certif/{request.user.pk}/",headers=header) 
+    certifs=response.json()
+    return certifs
+
+@login_required(login_url='signin')
+def recoms_get(request):
+    header = {"Authorization": f"Token {request.session['token']}"}
+    response=requests.get(f"{url}recom/{request.user.pk}/",headers=header) 
+    recoms=response.json()
+    return recoms
+
+#feha probleme
+@login_required(login_url='signin')
+def motiv_get(request):
+    header = {"Authorization": f"Token {request.session['token']}"}
+    response=requests.get(f"{url}motiv/{request.user.pk}/",headers=header) 
+    motiv=response.json()
+    return motiv 
+
+@login_required(login_url='signin')
+def volunts_get(request):
+    header = {"Authorization": f"Token {request.session['token']}"}
+    response=requests.get(f"{url}volunt/{request.user.pk}/",headers=header) 
+    volunts=response.json()
+    return volunts 
+
+@login_required(login_url='signin')
+def profs_get(request):
+    header = {"Authorization": f"Token {request.session['token']}"}
+    response=requests.get(f"{url}professional/{request.user.pk}/",headers=header) 
+    profs=response.json()
+    return profs 
+
+@login_required(login_url='signin')
+def projects_get(request):
+    header = {"Authorization": f"Token {request.session['token']}"}
+    response=requests.get(f"{url}proj/{request.user.pk}/",headers=header) 
+    projects=response.json()
+    return projects 
+
+
+@login_required(login_url='signin')
+def awards_get(request):
+    header = {"Authorization": f"Token {request.session['token']}"}
+    response=requests.get(f"{url}award/{request.user.pk}/",headers=header) 
+    awards=response.json()
+    return awards 
+
+@login_required(login_url='signin')
+def portfolio_get(request):
+    header = {"Authorization": f"Token {request.session['token']}"}
+    response=requests.get(f"{url}portfolio/{request.user.pk}/",headers=header) 
+    portfolio=response.json()
+    return portfolio 
+
+@login_required(login_url='signin')
+def profile_get(request):
+    header = {"Authorization": f"Token {request.session['token']}"}
+    response=requests.get(f"{url}profile/{request.user.pk}/",headers=header) 
+    portfolio=response.json()
+    return portfolio 
+
+def display_portfolio(request):
+    skills=skills_get(request)
+    languages=languages_get(request)
+    formations=formations_get(request)
+    socials=socials_get(request)
+    works=works_get(request)
+    certifs=certifs_get(request)
+    recoms=recoms_get(request)
+    motivs=motiv_get(request)
+    volunts=volunts_get(request)
+    profs=profs_get(request)
+    projects=projects_get(request)
+    awards=awards_get(request)
+    portfolio=portfolio_get(request)
+    profile=profile_get(request)
+    
+    context={"skills":skills,"languages":languages,"formations":formations,"socials":socials,"works":works,
+             "certifs":certifs,"recoms":recoms,"volunts":volunts,"motivs":motivs,"profs":profs,"projects":projects,
+             "awards":awards,"portfolio":portfolio,"profile":profile}
+    
+    return render(request,"portfolio.html",context)

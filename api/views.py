@@ -206,7 +206,7 @@ def post_or_get_all_motiv_letter(request,id):
         serializer.save(portfolio_id=id)
         return Response(serializer.data, status=201)
     elif request.method=='GET':
-        accounts=motivationLetter.objects.filter(portoflio_id=id)
+        accounts=motivationLetter.objects.filter(portfolio_id=id)
         if len(accounts)==0:
             return Response(status=204)
         serializer=MotivationLetterSerializer(accounts, context={'request': request}, many=True)
