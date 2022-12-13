@@ -247,7 +247,7 @@ def volunt_view_create(request):
         return redirect('login')
     return render(request,'volunteering.html',{'form':form})
 
-#not working
+
 @login_required(login_url='signin')
 def pro_view_create(request):  
     if request.method=='POST':
@@ -256,10 +256,26 @@ def pro_view_create(request):
             photo_url=simple_upload(request)
             header = {"Authorization": f"Token {request.session['token']}"}
             response=requests.post(f"{url}professional/{request.user.pk}/",data=form.data,headers=header) 
-            res=requests.patch(f"{url}professional/{request.user.pk}/",data={"image_url":photo_url},headers=header) 
+            result=response.json()
+            res=requests.patch(f"{url}proview/{result['id']}/",data={"image_url":photo_url},headers=header) 
            
             return redirect('login')
         return render(request,'ProAccomp.html',{'form':form})
     form=professionalAccomplishmentForm()
     return render(request,'ProAccomp.html',{'form':form})
-#end of not working
+
+@login_required(login_url='signin')
+def project_view_create(request):  
+    if request.method=='POST':
+        form=projectForm(request.POST,request.FILES) #ne pas faire 2 instances du form
+        if form.is_valid():
+            photo_url=simple_upload(request)
+            header = {"Authorization": f"Token {request.session['token']}"}
+            response=requests.post(f"{url}proj/{request.user.pk}/",data=form.data,headers=header) 
+            result=response.json()
+            res=requests.patch(f"{url}projectview/{result['id']}/",data={"image_url":photo_url},headers=header) 
+           
+            return redirect('login')
+        return render(request,'project.html',{'form':form})
+    form=projectForm()
+    return render(request,'project.html',{'form':form})

@@ -20,6 +20,8 @@ router=routers.DefaultRouter() #get the default router object defined in rest_fr
 #router.register(r'portfolio',PortfolioViewSet,basename="portfolio") 
 router.register(r'profile',ProfileViewSet,basename="profile") 
 router.register(r'portfolio',PortfolioViewSet) 
+router.register(r'proview',ProfessionalAccomplishmentViewSet) 
+router.register(r'projectview',ProjectviewSet) 
 
 
 
@@ -57,6 +59,7 @@ urlpatterns = [
      path(r'recom/<int:id>/',post_or_get_all_recom_letter,name="recom"),
      path(r'motiv/<int:id>/',post_or_get_all_motiv_letter,name="motiv"),
      path(r'volunt/<int:id>/',post_or_get_all_volun,name="volunt"),
+     path(r'proj/<int:id>/',post_or_get_all_projects,name="proj"),
      
     # path('',include(user_router.urls)),
      #path(r'connect/',include("rest_framework.urls")),

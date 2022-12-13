@@ -238,15 +238,33 @@ def post_or_get_all_pro_accomp(request,id):
     if request.method=='POST':
         serializer=ProfessionalAccomplishmentSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
-        serializer.save(portoflio_id=get_portfolio_id(id).pk)
+        serializer.save(portfolio_id=get_portfolio_id(id).pk)
         return Response(serializer.data, status=201)
     elif request.method=='GET':
-        pro_acc=professionalAccomplishment.objects.filter(portoflio_id=get_portfolio_id(id).pk)
+        pro_acc=professionalAccomplishment.objects.filter(portfolio_id=get_portfolio_id(id).pk)
         if len(pro_acc)==0:
             return Response(status=204)
         serializer=ProfessionalAccomplishmentSerializer(pro_acc, context={'request': request}, many=True)
         return Response(serializer.data, status=200)
     return Response(status=status.HTTP_405_METHOD_NOT_ALLOWED)
+
+@csrf_exempt
+@api_view(['GET', 'POST'])
+def post_or_get_all_projects(request,id):
+    if request.method=='POST':
+        serializer=ProjectSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save(portoflio_id=get_portfolio_id(id).pk)
+        return Response(serializer.data, status=201)
+    elif request.method=='GET':
+        pro_acc=project.objects.filter(portoflio_id=get_portfolio_id(id).pk)
+        if len(pro_acc)==0:
+            return Response(status=204)
+        serializer=ProjectSerializer(pro_acc, context={'request': request}, many=True)
+        return Response(serializer.data, status=200)
+    return Response(status=status.HTTP_405_METHOD_NOT_ALLOWED)
+
+
 
 class ProfileViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated]
@@ -263,9 +281,22 @@ class ProfileViewSet(viewsets.ModelViewSet):
         return profile.objects.filter(usr__id=self.request.user.pk)
     
 class PortfolioViewSet(viewsets.ModelViewSet):
+
     #permission_classes = [IsAuthenticated]
     permission_classes = [IsAuthenticated]
     authentication_classes = [TokenAuthentication]
     queryset = portfolio.objects.all()
     serializer_class = PortfolioSerializer
+    http_method_name = ['get', 'post', 'put', 'delete','patch']
+    
+class ProfessionalAccomplishmentViewSet(viewsets.ModelViewSet):
+    permission_classes = [IsAuthenticated]
+    queryset = professionalAccomplishment.objects.all()
+    serializer_class = ProfessionalAccomplishmentSerializer
+    http_method_name = ['get', 'post', 'put', 'delete','patch']
+    
+class ProjectviewSet(viewsets.ModelViewSet):
+    permission_classes = [IsAuthenticated]
+    queryset = project.objects.all()
+    serializer_class = ProjectSerializer
     http_method_name = ['get', 'post', 'put', 'delete','patch']

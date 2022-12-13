@@ -61,7 +61,7 @@ class FormationSerializer(serializers.ModelSerializer):
 class ProfessionalAccomplishmentSerializer(serializers.ModelSerializer):
     class Meta:
         model=professionalAccomplishment
-        exclude=["portoflio",]  
+        exclude=["portfolio",]  
 
 
 class AwardSerializer(serializers.ModelSerializer):
@@ -80,7 +80,7 @@ class Social_accountsSerializer(serializers.ModelSerializer):
 class ProjectSerializer(serializers.ModelSerializer):
     class Meta:
         model=project
-        fields=["name","description","date_creation","visual_demo"] #serializes all fields  
+        fields=["id","name","description","date_creation","visual_demo","image_url"] #serializes all fields  
          
 
 class CertificateSerializer(serializers.ModelSerializer):

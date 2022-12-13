@@ -89,7 +89,7 @@ class language(models.Model):
         db_table='language'
     
     def __str__(self):
-        return f'{self.portfolio}'
+        return f'{self.portoflio}'
 
 class skill(models.Model):
     name=models.CharField(default="", max_length=50)
@@ -98,7 +98,7 @@ class skill(models.Model):
     class Meta:
         db_table='skill'
     def __str__(self):
-        return f'{self.portfolio}'
+        return f'{self.portoflio}'
         
 class formation(models.Model):
     name=models.CharField(default="", max_length=50)
@@ -112,7 +112,7 @@ class formation(models.Model):
     class Meta:
         db_table='formation'
     def __str__(self):
-        return f'{self.portfolio}'
+        return f'{self.portoflio}'
         
 class accomplishment(models.Model):
     title=models.CharField(default="", max_length=50)
@@ -161,21 +161,21 @@ class social_accounts(models.Model):
     class Meta:
         db_table='social_accounts'
     def __str__(self):
-        return f'{self.portfolio}'
+        return f'{self.portoflio}'
 
 
 class project(models.Model):
     name=models.CharField(max_length=100,default="")
     description=models.CharField(max_length=100,default="")
-    date_creation=models.CharField(max_length=100,default="")
-    visual_demo=models.FileField(upload_to="Project/demo")
+    date_creation=models.DateField(default=date(2022,1,1))
+    visual_demo=models.FileField(upload_to="Project/demo",blank=True,null=True)
     image_url = models.CharField(blank=True,null=True,max_length=1000)
     portoflio=models.ForeignKey(portfolio,on_delete=models.CASCADE)
     class Meta:
         db_table='project'
         #TODO verbose plural
     def __str__(self):
-        return f'{self.portfolio}'
+        return f'{self.portoflio}'
   
         
 class certificate(models.Model):
@@ -193,7 +193,7 @@ class certificate(models.Model):
     class Meta:
         db_table='certificate'
     def __str__(self):
-        return f'{self.portfolio}'
+        return f'{self.portoflio}'
  
     
 class volunteering(models.Model):
@@ -205,7 +205,7 @@ class volunteering(models.Model):
     class Meta:
         db_table='volunteering'
     def __str__(self):
-        return f'{self.portfolio}'
+        return f'{self.portoflio}'
 
 class work_experience(models.Model):
     poste=models.CharField(default="",max_length=50)
@@ -216,7 +216,7 @@ class work_experience(models.Model):
     class Meta:
         db_table='work_experience'
     def __str__(self):
-        return f'{self.portfolio}'
+        return f'{self.portoflio}'
  
     
 class feedback(models.Model):
@@ -251,4 +251,4 @@ class recommendationLetter(letter):
     class Meta:
         db_table='recommendation_letter'
     def __str__(self):
-        return f'{self.portfolio}'
+        return f'{self.portoflio}'

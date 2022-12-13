@@ -69,7 +69,7 @@ class professionalAccomplishmentForm(forms.Form):
     ]
     title=forms.CharField()
     summary=forms.CharField() 
-    justification=forms.FileField()
+    photo=forms.FileField()
     date_a=forms.DateField()
     accomp_type=forms.ChoiceField(choices =accomplishmentCategories) 
 
@@ -109,13 +109,13 @@ class social_accounts_form(forms.Form):
         )
 
 
-class project(forms.Form):
+class projectForm(forms.Form):
     name=forms.CharField()
     description=forms.CharField() 
-    linkedate_creationdin=forms.DateField() #fl models mahtouta charfield nbadlouha ?
-    visual_demo=forms.FileField()
-
-
+    date_creation=forms.DateField() #fl models mahtouta charfield nbadlouha ?
+    #visual_demo=forms.FileField()
+    photo=forms.FileField()
+    
 
 
 class certificate(forms.Form):
