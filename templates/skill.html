@@ -125,9 +125,15 @@
         <div class="shape"></div>
         <div class="shape"></div>
     </div>
+    
     <form method="post">
         <h3>Skills</h3>
-
+        {%if response%}
+        {%for skill in response%}
+        
+        <p>{{skill.name}}</p>
+        {%endfor%}
+        {%endif%}
         <label for="text">Add a skill</label>
         {%csrf_token%}
         {{skillform}}

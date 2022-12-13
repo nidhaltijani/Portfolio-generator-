@@ -130,12 +130,12 @@
     </div>
     <form method="post" enctype="multipart/form-data">
         <h3>Create Profile</h3>
-        <label>Add your photo</label>
+       
         {%csrf_token%}
         {{profileform}}
 
         <button type="submit">Next</button>
-
+        
     </form>
     <canvas hidden></canvas>
     <script>

@@ -6,16 +6,15 @@ from .models import  *
 from api.serializers import *
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.permissions import  IsAuthenticated
-from rest_framework.renderers import TemplateHTMLRenderer,JSONRenderer
-from rest_framework.authtoken.views import ObtainAuthToken
 from rest_framework.authtoken.models import Token
 #TODO check this
 from rest_framework import status
 from django.contrib.auth import authenticate
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework.authtoken.models import Token
-from rest_framework.decorators import api_view, permission_classes
+from rest_framework.decorators import api_view, permission_classes,renderer_classes
 from rest_framework.permissions import AllowAny
+from rest_framework.renderers import TemplateHTMLRenderer,JSONRenderer
 from rest_framework.status import (
     HTTP_400_BAD_REQUEST,
     HTTP_404_NOT_FOUND,
@@ -78,6 +77,7 @@ def signup(request):
  
 @csrf_exempt            
 @api_view(['GET', 'POST'])
+#@renderer_classes((TemplateHTMLRenderer,JSONRenderer))
 def post_or_get_all_skills(request,id):
     if request.method=='POST':
         serializer=SkillSerializer(data=request.data)
@@ -90,8 +90,8 @@ def post_or_get_all_skills(request,id):
         if len(skills)==0:
             return Response(status=204)
         serializer=SkillSerializer(skills, context={'request': request}, many=True)
-        return Response(serializer.data, status=200)
-    return Response(status=status.HTTP_405_METHOD_NOT_ALLOWED)
+        return Response(serializer.data, status=200,content_type='application/json')
+    return Response(status=status.HTTP_405_METHOD_NOT_ALLOWED,content_type='application/json')
 
 @csrf_exempt
 @api_view(['GET', 'POST'])
@@ -144,6 +144,56 @@ def post_or_get_all_social(request,id):
         return Response(serializer.data, status=200)
     return Response(status=status.HTTP_405_METHOD_NOT_ALLOWED)
 
+@csrf_exempt
+@api_view(['GET', 'POST'])
+def post_or_get_all_work(request,id):
+    if request.method=='POST':
+        serializer=Work_experienceSerializer(data=request.data)
+        #serializer["portfolio"]=id
+        serializer.is_valid(raise_exception=True)
+        serializer.save(portoflio_id=id)
+        return Response(serializer.data, status=201)
+    elif request.method=='GET':
+        accounts=work_experience.objects.filter(portoflio_id=id)
+        if len(accounts)==0:
+            return Response(status=204)
+        serializer=Work_experienceSerializer(accounts, context={'request': request}, many=True)
+        return Response(serializer.data, status=200)
+    return Response(status=status.HTTP_405_METHOD_NOT_ALLOWED)
+
+@csrf_exempt
+@api_view(['GET', 'POST'])
+def post_or_get_all_certif(request,id):
+    if request.method=='POST':
+        serializer=CertificateSerializer(data=request.data)
+        #serializer["portfolio"]=id
+        serializer.is_valid(raise_exception=True)
+        serializer.save(portoflio_id=id)
+        return Response(serializer.data, status=201)
+    elif request.method=='GET':
+        accounts=certificate.objects.filter(portoflio_id=id)
+        if len(accounts)==0:
+            return Response(status=204)
+        serializer=CertificateSerializer(accounts, context={'request': request}, many=True)
+        return Response(serializer.data, status=200)
+    return Response(status=status.HTTP_405_METHOD_NOT_ALLOWED)
+
+@csrf_exempt
+@api_view(['GET', 'POST'])
+def post_or_get_all_recom_letter(request,id):
+    if request.method=='POST':
+        serializer=RecommendationLetterSerializer(data=request.data)
+        #serializer["portfolio"]=id
+        serializer.is_valid(raise_exception=True)
+        serializer.save(portoflio_id=id)
+        return Response(serializer.data, status=201)
+    elif request.method=='GET':
+        accounts=recommendationLetter.objects.filter(portoflio_id=id)
+        if len(accounts)==0:
+            return Response(status=204)
+        serializer=RecommendationLetterSerializer(accounts, context={'request': request}, many=True)
+        return Response(serializer.data, status=200)
+    return Response(status=status.HTTP_405_METHOD_NOT_ALLOWED)
 
 # not working
 @csrf_exempt

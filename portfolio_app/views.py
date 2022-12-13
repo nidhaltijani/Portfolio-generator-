@@ -82,16 +82,31 @@ def about(request):
 #@login_required(login_url='signin')
 #enfin khedmet bel authentificationnnnnnnnn
 #update profile
+
+def simple_upload(request):
+    if request.method == 'POST' and request.FILES['photo']:
+        myfile = request.FILES['photo']
+        fs = FileSystemStorage()
+        filename = fs.save(myfile.name, myfile)
+        uploaded_file_url = fs.url(filename)
+        return uploaded_file_url
+        
+
 def my_profile(request):
     #user_profile=request.user
-    
-    profform=profileForm(request.POST,request.FILES or None) #nahyna user_profile w hatyna 1 pour tester
-    if profform.is_valid():
-    #if request.method=='POST':
-        header = {"Authorization": f"Token {request.session['token']}"}
-        #response=requests.delete(f'{url}profile/1/') #workssssssssss
-        response=requests.patch(f"{url}profile/{request.user.pk}/",data=profform.data,headers=header) #profile id = user id
-        redirect('profile') 
+    if request.method=='POST':
+        profform=profileForm(request.POST,request.FILES) #nahyna user_profile w hatyna 1 pour tester
+        if profform.is_valid():
+        #if request.method=='POST':
+            photo_url=simple_upload(request)
+            header = {"Authorization": f"Token {request.session['token']}"}
+            #response=requests.delete(f'{url}profile/1/') #workssssssssss
+            response=requests.patch(f"{url}profile/{request.user.pk}/",data=profform.data,headers=header) #profile id = user id
+            res=requests.patch(f"{url}profile/{request.user.pk}/",data={"image_url":photo_url},headers=header)
+            redirect('profile') 
+        
+        return render(request,'profileForm.html',{'profileform':profform})
+    profform=profileForm()
     return render(request,'profileForm.html',{'profileform':profform})
 
 
@@ -141,8 +156,10 @@ def skill_view_create(request):
 def skills_get(request):
     header = {"Authorization": f"Token {request.session['token']}"}
     response=requests.get(f"{url}skill/{request.user.pk}/",headers=header) 
-    return render(request,'skill.html')
-
+    #response.json()
+    skills=response.json()
+    
+    return render(request,'skill.html',{"response":skills})
 
 
 @login_required(login_url='signin')
@@ -186,10 +203,45 @@ def social_view_create(request):
     return render(request,'social.html',{'form':form})
 
 @login_required(login_url='signin')
-def pro_view_create(request):   
-    form=professionalAccomplishmentForm(request.POST,request.FILES or None) #ne pas faire 2 instances du form
+def work_view_create(request):   
+    form=work_experience(request.POST or None) #ne pas faire 2 instances du form
     if form.is_valid():
         header = {"Authorization": f"Token {request.session['token']}"}
-        response=requests.post(f"{url}professional/{request.user.pk}/",data=form.data,headers=header) 
+        response=requests.post(f"{url}work/{request.user.pk}/",data=form.data,headers=header) 
         return redirect('login')
+    return render(request,'work.html',{'form':form})
+
+@login_required(login_url='signin')
+def certif_view_create(request):   
+    form=certificate(request.POST or None) #ne pas faire 2 instances du form
+    if form.is_valid():
+        header = {"Authorization": f"Token {request.session['token']}"}
+        response=requests.post(f"{url}certif/{request.user.pk}/",data=form.data,headers=header) 
+        return redirect('login')
+    return render(request,'certificates.html',{'form':form})
+
+@login_required(login_url='signin')
+def recom_view_create(request):   
+    form=recommendationLetter(request.POST or None) #ne pas faire 2 instances du form
+    if form.is_valid():
+        header = {"Authorization": f"Token {request.session['token']}"}
+        response=requests.post(f"{url}recom/{request.user.pk}/",data=form.data,headers=header) 
+        return redirect('login')
+    return render(request,'recom_letter.html',{'form':form})
+
+#not working
+@login_required(login_url='signin')
+def pro_view_create(request):  
+    if request.method=='POST':
+        form=professionalAccomplishmentForm(request.POST,request.FILES) #ne pas faire 2 instances du form
+        if form.is_valid():
+            photo_url=simple_upload(request)
+            header = {"Authorization": f"Token {request.session['token']}"}
+            response=requests.post(f"{url}professional/{request.user.pk}/",data=form.data,headers=header) 
+            res=requests.patch(f"{url}professional/{request.user.pk}/",data={"image_url":photo_url},headers=header) 
+           
+            return redirect('login')
+        return render(request,'ProAccomp.html',{'form':form})
+    form=professionalAccomplishmentForm()
     return render(request,'ProAccomp.html',{'form':form})
+#end of not working

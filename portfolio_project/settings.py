@@ -45,7 +45,12 @@ INSTALLED_APPS = [
     'rest_framework.authtoken',
     #"corsheaders",
     #"rest_framework_nested",
+    'crispy_forms',
+    'crispy_bootstrap5',
 ]
+
+CRISPY_ALLOWED_TEMPLATE_PACKS="bootstrap5"
+CRISPY_TEMPLATE_PACK = 'bootstrap5'
 
 MIDDLEWARE = [
     "corsheaders.middleware.CorsMiddleware", # should be au high as possible
@@ -174,3 +179,6 @@ CORS_ALLOWED_ORIGINS = [
 ]
 """
 MESSAGE_STORAGE = 'django.contrib.messages.storage.cookie.CookieStorage'
+
+MEDIA_URL = '/photos/users/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'photos/users/')

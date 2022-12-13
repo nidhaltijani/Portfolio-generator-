@@ -61,14 +61,14 @@ class FormationSerializer(serializers.ModelSerializer):
 class ProfessionalAccomplishmentSerializer(serializers.ModelSerializer):
     class Meta:
         model=professionalAccomplishment
-        exclude=["portfolio",]  
+        exclude=["portoflio",]  
 
 
 class AwardSerializer(serializers.ModelSerializer):
     class Meta:
         model=award
         #fields=["recognition"] #serializes all fields    
-        exlude=["portfolio"]
+        exclude=["portoflio"]
 
 class Social_accountsSerializer(serializers.ModelSerializer):
     class Meta:
@@ -86,7 +86,7 @@ class ProjectSerializer(serializers.ModelSerializer):
 class CertificateSerializer(serializers.ModelSerializer):
     class Meta:
         model=certificate
-        exlude=["portfolio"] #serializes all fields    
+        exclude=["portoflio"] #serializes all fields    
 
 
 class VolunteeringSerializer(serializers.ModelSerializer):
@@ -112,10 +112,10 @@ class FeedbackSerializer(serializers.ModelSerializer):
 class MotivationLetterSerializer(serializers.ModelSerializer):
     class Meta:
         model=motivationLetter
-        exlude=["portfolio"] #serializes all fields    
+        exclude=["portoflio"] #serializes all fields    
 
 
 class RecommendationLetterSerializer(serializers.ModelSerializer):
     class Meta:
         model=recommendationLetter
-        exlude=["portfolio"] #serializes all fields    
+        exclude=["portoflio"] #serializes all fields    

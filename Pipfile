@@ -9,6 +9,7 @@ djangorestframework = "*"
 requests = "*"
 pillow = "*"
 social-auth-app-django = "*"
+django-crispy-forms = "*"
 
 [dev-packages]
 

@@ -24,6 +24,8 @@ class user(AbstractUser):
     #verif
     class Meta:
         db_table='user'
+    def __str__(self):
+        return f'{self.email}'
         
 class profile(models.Model):
     usr=models.OneToOneField(user,on_delete=models.CASCADE)
@@ -32,10 +34,15 @@ class profile(models.Model):
     birthday=models.DateField(default=date(2000,1,1))
     #TODO add min length 8
     phone_number=models.PositiveIntegerField(default=99999999)  #,max_length=8
-    photo=models.ImageField(upload_to='photos/users') 
+    photo=models.ImageField(upload_to='photos/users')  # on peut l'enlever
+    image_url = models.CharField(blank=True,null=True,max_length=1000)
     
     class Meta:
         db_table="profile"
+    
+    def __str__(self):
+        return f'{self.first_name} {self.last_name}'
+    
     # two methods to redefine the relation between user and profile
     @receiver(post_save, sender=user)
     def create_user_profile(sender, instance, created, **kwargs):
@@ -53,6 +60,9 @@ class portfolio(models.Model):
     
     class Meta:
         db_table='portfolio'
+    
+    def __str__(self):
+        return f'{self.usr}'
     
     @receiver(post_save, sender=user)
     def create_user_profile(sender, instance, created, **kwargs):
@@ -77,6 +87,9 @@ class language(models.Model):
     portoflio=models.ForeignKey(portfolio,on_delete=models.CASCADE)
     class Meta:
         db_table='language'
+    
+    def __str__(self):
+        return f'{self.portfolio}'
 
 class skill(models.Model):
     name=models.CharField(default="", max_length=50)
@@ -84,6 +97,8 @@ class skill(models.Model):
     portoflio=models.ForeignKey(portfolio,on_delete=models.CASCADE)
     class Meta:
         db_table='skill'
+    def __str__(self):
+        return f'{self.portfolio}'
         
 class formation(models.Model):
     name=models.CharField(default="", max_length=50)
@@ -96,14 +111,18 @@ class formation(models.Model):
     portoflio=models.ForeignKey(portfolio,on_delete=models.CASCADE)
     class Meta:
         db_table='formation'
+    def __str__(self):
+        return f'{self.portfolio}'
         
 class accomplishment(models.Model):
     title=models.CharField(default="", max_length=50)
     summary=models.CharField(default="",max_length=500)
-    justification=models.FileField(upload_to='pro_accomp/justifications')
+    photo=models.FileField(upload_to='pro_accomp/justifications',blank=True,null=True)
+    image_url = models.CharField(blank=True,null=True,max_length=1000)
     date_a=models.DateField(default=date(2022,1,1))
     class Meta:
         abstract=True
+    
         
 class professionalAccomplishment(accomplishment):
     class accomplishmentCategories(models.TextChoices):
@@ -117,6 +136,8 @@ class professionalAccomplishment(accomplishment):
     portfolio=models.ForeignKey(portfolio,on_delete=models.CASCADE)
     class Meta:
         db_table='professional_Accomplishment'
+    def __str__(self):
+        return f'{self.portfolio}'
         
 class award(accomplishment):
     class recognitionLevel(models.TextChoices):
@@ -126,6 +147,8 @@ class award(accomplishment):
     portfolio=models.ForeignKey(portfolio,on_delete=models.CASCADE)
     class Meta:
         db_table='award'
+    def __str__(self):
+        return f'{self.portfolio}'
     
        
 class social_accounts(models.Model):
@@ -137,6 +160,8 @@ class social_accounts(models.Model):
     portoflio=models.OneToOneField(portfolio,on_delete=models.CASCADE)
     class Meta:
         db_table='social_accounts'
+    def __str__(self):
+        return f'{self.portfolio}'
 
 
 class project(models.Model):
@@ -144,10 +169,13 @@ class project(models.Model):
     description=models.CharField(max_length=100,default="")
     date_creation=models.CharField(max_length=100,default="")
     visual_demo=models.FileField(upload_to="Project/demo")
+    image_url = models.CharField(blank=True,null=True,max_length=1000)
     portoflio=models.ForeignKey(portfolio,on_delete=models.CASCADE)
     class Meta:
         db_table='project'
         #TODO verbose plural
+    def __str__(self):
+        return f'{self.portfolio}'
   
         
 class certificate(models.Model):
@@ -164,6 +192,8 @@ class certificate(models.Model):
     portoflio=models.ForeignKey(portfolio,on_delete=models.CASCADE)
     class Meta:
         db_table='certificate'
+    def __str__(self):
+        return f'{self.portfolio}'
  
     
 class volunteering(models.Model):
@@ -174,8 +204,8 @@ class volunteering(models.Model):
     portoflio=models.ForeignKey(portfolio,on_delete=models.CASCADE)
     class Meta:
         db_table='volunteering'
-    pass
-
+    def __str__(self):
+        return f'{self.portfolio}'
 
 class work_experience(models.Model):
     poste=models.CharField(default="",max_length=50)
@@ -185,6 +215,8 @@ class work_experience(models.Model):
     portoflio=models.ForeignKey(portfolio,on_delete=models.CASCADE)
     class Meta:
         db_table='work_experience'
+    def __str__(self):
+        return f'{self.portfolio}'
  
     
 class feedback(models.Model):
@@ -193,6 +225,8 @@ class feedback(models.Model):
     feedback=models.CharField(default="", max_length=500)
     class Meta:
         db_table='feedback'
+    def __str__(self):
+        return f'{self.user.email}'
 
 
 class letter(models.Model):
@@ -206,6 +240,8 @@ class motivationLetter(letter):
     portfolio=models.OneToOneField(portfolio,on_delete=models.CASCADE)
     class Meta:
         db_table="motivation_letter"
+    def __str__(self):
+        return f'{self.portfolio}'
 
 
 class recommendationLetter(letter):
@@ -214,3 +250,5 @@ class recommendationLetter(letter):
     occupation=models.CharField(default="",max_length=50)
     class Meta:
         db_table='recommendation_letter'
+    def __str__(self):
+        return f'{self.portfolio}'

@@ -2,7 +2,7 @@
 <html lang="en">
 
 <head>
-    <title>Certificates</title>
+    <title>Recommendation letter</title>
 
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
@@ -23,7 +23,7 @@
 
         .background {
             width: 430px;
-            height: 600px;
+            height: 520px;
             position: absolute;
             transform: translate(-50%, -50%);
             left: 50%;
@@ -53,7 +53,7 @@
         }
 
         form {
-            height: 800px;
+            height: 520px;
             width: 400px;
             background-color: rgba(255, 255, 255, 0.13);
             position: absolute;
@@ -65,7 +65,6 @@
             border: 2px solid rgba(255, 255, 255, 0.1);
             box-shadow: 0 0 40px rgba(8, 7, 16, 0.6);
             padding: 50px 35px;
-            margin-top: 50px;
         }
 
         form * {
@@ -117,8 +116,7 @@
             border-radius: 5px;
             cursor: pointer;
         }
-
-        select {
+        input[type="file"]{
             display: block;
             height: 50px;
             width: 100%;
@@ -127,13 +125,8 @@
             padding: 0 10px;
             margin-top: 8px;
             font-size: 14px;
-            font-weight: 300;
-        }
+            font-weight: 300;            
 
-        /*Ajout des couleurs de fond pour chaque option */
-        select option {
-            background: rgba(255, 255, 255, 0.07);
-            color: black;
         }
     </style>
 </head>
@@ -144,12 +137,11 @@
         <div class="shape"></div>
     </div>
     <form method="post">
-        <h3>Certificates</h3>
+        <h3>Letters</h3>
         {%csrf_token%}
         {{form}}
-        <button>Add another one</button>
-        <button type="submit">Next</button>
 
+        <button type="submit">Next</button>
         </div>
     </form>
 </body>

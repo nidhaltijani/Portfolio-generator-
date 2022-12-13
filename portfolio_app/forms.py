@@ -1,6 +1,7 @@
 from django import forms
 from api.models import *
-
+from crispy_forms.helper import FormHelper
+from crispy_forms.layout import Layout, Submit, Row, Column
 
 class loginform(forms.Form):
     email=forms.EmailField()
@@ -39,7 +40,7 @@ class languageform(forms.Form):
 
 ]
     name=forms.CharField(label="name",max_length=200)
-    typeoflanguage=forms.ChoiceField(widget=forms.RadioSelect,choices=proficiency)
+    typeoflanguage=forms.ChoiceField(choices=proficiency)
 
 class skillform(forms.Form):
     name=forms.CharField()
@@ -70,7 +71,7 @@ class professionalAccomplishmentForm(forms.Form):
     summary=forms.CharField() 
     justification=forms.FileField()
     date_a=forms.DateField()
-    accomp_type=forms.MultipleChoiceField(widget=forms.RadioSelect,choices =accomplishmentCategories) 
+    accomp_type=forms.ChoiceField(choices =accomplishmentCategories) 
 
     
 
@@ -83,8 +84,29 @@ class social_accounts_form(forms.Form):
     github=forms.CharField() 
     linkedin=forms.CharField()
     website=forms.CharField()
-    facebook=forms.CharField()
+    #facebook=forms.CharField()
     google=forms.CharField() 
+    
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.helper = FormHelper()
+        self.helper.layout = Layout(
+            Row(
+                Column('facebook', css_class='form-group col-md-6 mb-0'),
+                Column('github', css_class='form-group col-md-6 mb-0'),
+                Column('linkedin', css_class='form-group col-md-6 mb-0'),
+                css_class='form-row'
+            ),
+            
+            Row(
+                Column('wesite', css_class='form-group col-md-6 mb-0'),
+                Column('google', css_class='form-group col-md-4 mb-0'),
+                #Column('zip_code', css_class='form-group col-md-2 mb-0'),
+                css_class='form-row'
+            ),
+            #'check_me_out',
+            Submit('submit', 'next')
+        )
 
 
 class project(forms.Form):
@@ -97,9 +119,12 @@ class project(forms.Form):
 
 
 class certificate(forms.Form):
+    certif_types=[('comp','completion'),
+        ('ach','achievement'),
+        ('pro','professional')]
     name=forms.CharField()
     organization=forms.CharField() 
-    certification_type=forms.CharField() #enumération ya ghalya
+    certification_type=forms.ChoiceField(choices=certif_types) #enumération ya ghalya
 
    
 class volunteering(forms.Form):
@@ -128,6 +153,9 @@ class motivationLetter(forms.Form):
 class recommendationLetter(forms.Form):
     writer=forms.CharField()
     occupation=forms.CharField() 
+    date_of_letter=forms.DateField()
+    letter=forms.CharField(widget=forms.TextInput())
+    
 
 
 
@@ -136,13 +164,32 @@ class portform(forms.ModelForm):
         model=portfolio
         exclude=["usr"]
         
-class profileForm(forms.ModelForm):
+class profileForm(forms.Form):
+    first_name=forms.CharField()
+    last_name=forms.CharField()
+    birthday=forms.DateField()
+    #TODO add min length 8
+    phone_number=forms.IntegerField()  #,max_length=8
     photo=forms.ImageField()
     class Meta:
-        model=profile
-        exclude=["usr"]
+      
         widgets={'photo': forms.FileInput(attrs={'class': 'form-control'}),}
-        
+    def is_valid(self) -> bool:
+        valid= super().is_valid()    
+        if not self.cleaned_data['first_name'].isalpha():
+            self.add_error('first_name', "first name must be only alphabetic")
+            return False 
+        if not self.cleaned_data['last_name'].isalpha():
+            self.add_error('last_name', "last name must be only alphabetic")
+            return False 
+        if not (len(str(self.cleaned_data['phone_number']))==8):
+            self.add_error('phone_number', "Phone number must be of length 8")
+            return False  
+        if not str(self.cleaned_data['phone_number'])[0] in ("2","9","5"):
+            self.add_error('phone_number', "Phone number must start with 5 ,2 or 9")
+            return False  
+        return True
+    
 
 class feedbackForm(forms.ModelForm):
     class Meta:

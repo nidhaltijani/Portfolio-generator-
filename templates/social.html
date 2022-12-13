@@ -1,6 +1,7 @@
+{% load crispy_forms_tags %}
 <!DOCTYPE html>
 <html lang="en">
-
+   
 <head>
     <title>login</title>
 
@@ -155,7 +156,7 @@
         <h3>Add your Social Media</h3>
         
         {%csrf_token%}
-        {{form}}
+        {{form|crispy}}
 
         <button type="submit">Next</button>
     </form>
