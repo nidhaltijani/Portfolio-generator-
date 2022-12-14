@@ -405,8 +405,12 @@ def display_portfolio(request):
     portfolio=portfolio_get(request)
     profile=profile_get(request)
     images=os.listdir(settings.MEDIA_ROOT)
+    form=publishForm()
     context={"skills":skills,"languages":languages,"formations":formations,"socials":socials,"works":works,
              "certifs":certifs,"recoms":recoms,"volunts":volunts,"motivs":motivs,"profs":profs,"projects":projects,
-             "awards":awards,"portfolio":portfolio,"profile":profile,"images":images}
-    
+             "awards":awards,"portfolio":portfolio,"profile":profile,"images":images,"form":form}
+    if request.method=="POST":
+        header = {"Authorization": f"Token {request.session['token']}"}
+        response=requests.patch(f"{url}portfolio/{request.user.pk}/",data={"is_published":True},headers=header) 
+        
     return render(request,"portfolio.html",context)

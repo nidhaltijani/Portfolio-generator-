@@ -35,6 +35,7 @@ class profile(models.Model):
     #TODO add min length 8
     phone_number=models.PositiveIntegerField(default=99999999)  #,max_length=8
     photo=models.ImageField(upload_to='photos/users')  # on peut l'enlever
+    occupation=models.CharField(max_length=100,default="")
     image_url = models.CharField(blank=True,null=True,max_length=1000)
     
     class Meta:
@@ -57,7 +58,7 @@ class portfolio(models.Model):
     philosophy_statement=models.CharField(default="", max_length=50)
     about=models.TextField(null=True,blank=True)
     usr=models.OneToOneField(user,on_delete=models.CASCADE)
-    
+    is_published=models.BooleanField(null=True,blank=True)
     class Meta:
         db_table='portfolio'
     

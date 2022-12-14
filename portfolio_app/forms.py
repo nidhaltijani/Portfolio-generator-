@@ -177,6 +177,7 @@ class profileForm(forms.Form):
     #TODO add min length 8
     phone_number=forms.IntegerField()  #,max_length=8
     photo=forms.ImageField()
+    occupation=forms.CharField()
     class Meta:
       
         widgets={'photo': forms.FileInput(attrs={'class': 'form-control'}),}
@@ -209,3 +210,6 @@ class feedbackForm(forms.ModelForm):
         if commit:
             instance.save()
         return instance
+    
+class publishForm(forms.Form):
+    pass
