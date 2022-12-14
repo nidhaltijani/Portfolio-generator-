@@ -314,6 +314,12 @@ class ProjectviewSet(viewsets.ModelViewSet):
     queryset = project.objects.all()
     serializer_class = ProjectSerializer
     http_method_name = ['get', 'post', 'put', 'delete','patch']
+   
+class FeedbackViewSet(viewsets.ModelViewSet):
+    permission_classes = [IsAuthenticated]
+    queryset = feedback.objects.all()
+    serializer_class = FeedbackSerializer
+    http_method_name = ['get', 'post', 'put', 'delete','patch']   
     
 class AwardViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated]

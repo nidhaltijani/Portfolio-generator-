@@ -422,9 +422,20 @@ def display_portfolio(request):
             return redirect("portfolio")
     return render(request,"portfolio.html",context)
 
+
+def get_feedbacks(request):
+    header = {"Authorization": f"Token {request.session['token']}"}
+    feedback1=requests.get(f"{url}feedbackview/1/",headers=header).json()
+    feedback2=requests.get(f"{url}feedbackview/2/",headers=header).json() 
+    feedback3=requests.get(f"{url}feedbackview/3/",headers=header).json() 
+    return feedback1,feedback2,feedback3
+
 def index(request):
     return render(request,"index.html")
 
 @login_required(login_url="signin")
 def index_connected(request):
-    return render(request,"index_connected.html")
+    feedback1,feedback2,feedback3=get_feedbacks(request)
+    return render(request,"index_connected.html",{"feedback1":feedback1,"feedback2":feedback2,"feedback3":feedback3})
+
+

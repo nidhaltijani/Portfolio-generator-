@@ -22,7 +22,7 @@
             <li class="nav-item"><a href="http://127.0.0.1:8000/app/profile/" class="nav-link">Create potfolio</a></li>
             <li class="nav-item"><a href="http://127.0.0.1:8000/app/portfolio/" class="nav-link">My portfolio</a></li>
             <li class="nav-item"><a href="#" class="nav-link">My data</a></li>
-            <li class="nav-item"><a href="feedback.html" class="nav-link">Give us feed back</a></li>
+            <li class="nav-item"><a href="http://127.0.0.1:8000/app/feedback/" class="nav-link">Give us feed back</a></li>
             <li class="nav-item"><a href="#fb" class="nav-link">Feedbacks</a></li>
             <li class="nav-item"><a href="logout/" class="nav-link">Log out</a></li>
         
@@ -65,36 +65,34 @@
         <div class="row mb-4">
             <div class="col-md-4">
                 <a href="javascript:void(0)" class="overlay-img">
-                    <img src="{% static 'assets/imgs/img-1.jpg'%}" alt="Download free bootstrap 4 landing page, free boootstrap 4 templates, Download free bootstrap 4.1 landing page, free boootstrap 4.1.1 templates, weber Landing page">  
+                    <img src="{% static 'assets/imgs/card.jfif'%}" alt="Download free bootstrap 4 landing page, free boootstrap 4 templates, Download free bootstrap 4.1 landing page, free boootstrap 4.1.1 templates, weber Landing page">  
                     <div class="overlay"></div> 
                     <div class="des">
-                        <h1 class="title">najmou n3abiwha ml bd lesm ?</h1>
+                        <h1 class="title">{{feedback1.title}}</h1>
                         
-                        <p>wl feed back zeda najmou nejbdouh ml bd ?</p>
+                        <p>{{feedback1.feedback}}</p>
                     </div>          
                 </a>
             </div>
             <div class="col-md-4">
                 <a href="javascript:void(0)" class="overlay-img">
-                    <img src="{% static 'assets/imgs/img-2.jpg'%}" alt="Download free bootstrap 4 landing page, free boootstrap 4 templates, Download free bootstrap 4.1 landing page, free boootstrap 4.1.1 templates, weber Landing page">  
+                    <img src="{% static 'assets/imgs/card.jfif'%}" alt="Download free bootstrap 4 landing page, free boootstrap 4 templates, Download free bootstrap 4.1 landing page, free boootstrap 4.1.1 templates, weber Landing page">  
                     <div class="overlay"></div> 
                     <div class="des">
-                        <h1 class="title">Nostrud exercitation </h1>
-                        <h6 class="subtitle">nulla pariatur</p>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-                        tempor incididunt ut labore et dolore magna aliqua.</p>
+                        <h1 class="title">{{feedback2.title}}</h1>
+                        
+                        <p>{{feedback2.feedback}}</p>
                     </div>          
                 </a>
             </div>
             <div class="col-md-4">
                 <a href="javascript:void(0)" class="overlay-img">
-                    <img src="{% static 'assets/imgs/img-3.jpg'%}" alt="Download free bootstrap 4 landing page, free boootstrap 4 templates, Download free bootstrap 4.1 landing page, free boootstrap 4.1.1 templates, weber Landing page">  
+                    <img src="{% static 'assets/imgs/card.jfif'%}" alt="Download free bootstrap 4 landing page, free boootstrap 4 templates, Download free bootstrap 4.1 landing page, free boootstrap 4.1.1 templates, weber Landing page">  
                     <div class="overlay"></div> 
                     <div class="des">
-                        <h1 class="title">Excepteur sint</h1>
-                        <h6 class="subtitle">magna aliqua</p>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-                        tempor incididunt ut labore et dolore magna aliqua.</p>
+                        <h1 class="title">{{feedback3.title}}</h1>
+                        
+                        <p>{{feedback3.feedback}}</p>
                     </div>          
                 </a>
             </div>          
