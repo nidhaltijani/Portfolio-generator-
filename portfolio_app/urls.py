@@ -7,11 +7,11 @@ from django.conf.urls.static import static
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('profile/', my_profile,name="profile"),
-    path('login/', signin,name="login"),
+    path('login/', signin,name="signin"),
     path('about/', about,name="about"),
     path('logout/', logout,name="logout"),
     path('signup/', signup,name="signup"),
-    path('acc/', create_accomplishment,name="signup"),
+    #path('acc/', create_accomplishment,name="signup"),
     #path('award/', create_accomplishment,name="signup"),
     path('skill/', skill_view_create,name="skill"),# apartir d'ici temshy
     path('skillget/', skills_get,name="skillget"),

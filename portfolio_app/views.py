@@ -17,6 +17,8 @@ import requests
 from django.http import HttpResponseRedirect,HttpResponse
 from .forms import *
 from django.core.files.storage import FileSystemStorage
+from django.conf import settings
+import os
 # Create your views here.
 #register is working perfectly
 
@@ -58,7 +60,7 @@ def signin(request):
         logform = loginform()
         return render(request,'login.html',{'form':logform})
 
-@login_required(login_url='login') 
+@login_required(login_url='signin') 
 def logout(request):
     auth.logout(request)
     for key in request.session.keys():
@@ -68,14 +70,14 @@ def logout(request):
 
 
 #tekhdem
-@login_required(login_url='login') 
+@login_required(login_url='signin') 
 def about(request):
     porform=portfolioForm(request.POST or None)
     if porform.is_valid():
         header = {"Authorization": f"Token {request.session['token']}"}
         #res=requests.get(f'{url}portfolio/2/')
         response=requests.patch(f'{url}portfolio/{request.user.pk}/',data=porform.data,headers=header)
-        return redirect('login')
+        return redirect('work')
     return render(request,"about.html",{"form":porform})
     
 
@@ -140,6 +142,8 @@ def provide_feedback(request):
         return render(request,'feedback.html',{'user': user_profile,'feedback':fbkform})
     return render(request,'feedback.html',{'user': user_profile,'feedback':fbkform})
 
+
+
 @login_required(login_url='signin')
 def skill_view_create(request):   
     language_f=skillform(request.POST or None) #ne pas faire 2 instances du form
@@ -148,7 +152,7 @@ def skill_view_create(request):
         #post_data=language_f.data
         header = {"Authorization": f"Token {request.session['token']}"}
         response=requests.post(f"{url}skill/{request.user.pk}/",data=language_f.data,headers=header) 
-        return redirect('login')
+        return redirect('award')
      
     return render(request,'skill.html',{'skillform':language_f})
 
@@ -161,7 +165,7 @@ def formation_view_create(request):
     if form.is_valid():
         header = {"Authorization": f"Token {request.session['token']}"}
         response=requests.post(f"{url}formation/{request.user.pk}/",data=form.data,headers=header) 
-        return redirect('login')
+        return redirect('skill')
     return render(request,'formation.html',{'form':form})
 
 
@@ -171,7 +175,7 @@ def language_view_create(request):
     if form.is_valid():
         header = {"Authorization": f"Token {request.session['token']}"}
         response=requests.post(f"{url}language/{request.user.pk}/",data=form.data,headers=header) 
-        return redirect('login')
+        return redirect('certif')
     return render(request,'language.html',{'form':form})
 
 
@@ -182,7 +186,7 @@ def social_view_create(request):
     if form.is_valid():
         header = {"Authorization": f"Token {request.session['token']}"}
         response=requests.post(f"{url}social/{request.user.pk}/",data=form.data,headers=header) 
-        return redirect('login')
+        return redirect('portfolio')
     return render(request,'social.html',{'form':form})
 
 @login_required(login_url='signin')
@@ -191,7 +195,7 @@ def work_view_create(request):
     if form.is_valid():
         header = {"Authorization": f"Token {request.session['token']}"}
         response=requests.post(f"{url}work/{request.user.pk}/",data=form.data,headers=header) 
-        return redirect('login')
+        return redirect('volunteering')
     return render(request,'work.html',{'form':form})
 
 @login_required(login_url='signin')
@@ -200,7 +204,7 @@ def certif_view_create(request):
     if form.is_valid():
         header = {"Authorization": f"Token {request.session['token']}"}
         response=requests.post(f"{url}certif/{request.user.pk}/",data=form.data,headers=header) 
-        return redirect('login')
+        return redirect('social')
     return render(request,'certificates.html',{'form':form})
 
 @login_required(login_url='signin')
@@ -209,7 +213,7 @@ def recom_view_create(request):
     if form.is_valid():
         header = {"Authorization": f"Token {request.session['token']}"}
         response=requests.post(f"{url}recom/{request.user.pk}/",data=form.data,headers=header) 
-        return redirect('login')
+        return redirect('language')
     return render(request,'recom_letter.html',{'form':form})
 
 @login_required(login_url='signin')
@@ -218,7 +222,7 @@ def motiv_view_create(request):
     if form.is_valid():
         header = {"Authorization": f"Token {request.session['token']}"}
         response=requests.post(f"{url}motiv/{request.user.pk}/",data=form.data,headers=header) 
-        return redirect('login')
+        return redirect('project')
     return render(request,'motivation_letter.html',{'form':form})
 
 @login_required(login_url='signin')
@@ -227,7 +231,7 @@ def volunt_view_create(request):
     if form.is_valid():
         header = {"Authorization": f"Token {request.session['token']}"}
         response=requests.post(f"{url}volunt/{request.user.pk}/",data=form.data,headers=header) 
-        return redirect('login')
+        return redirect('formation')
     return render(request,'volunteering.html',{'form':form})
 
 
@@ -242,7 +246,7 @@ def pro_view_create(request):
             result=response.json()
             res=requests.patch(f"{url}proview/{result['id']}/",data={"image_url":photo_url},headers=header) 
            
-            return redirect('login')
+            return redirect('motivation')
         return render(request,'ProAccomp.html',{'form':form})
     form=professionalAccomplishmentForm()
     return render(request,'ProAccomp.html',{'form':form})
@@ -258,7 +262,7 @@ def project_view_create(request):
             result=response.json()
             res=requests.patch(f"{url}projectview/{result['id']}/",data={"image_url":photo_url},headers=header) 
            
-            return redirect('login')
+            return redirect('recom')
         return render(request,'project.html',{'form':form})
     form=projectForm()
     return render(request,'project.html',{'form':form})
@@ -275,7 +279,7 @@ def award_view_create(request):
             """result=response.json()
             res=requests.patch(f"{url}awardview/{result['id']}/",data={"image_url":photo_url},headers=header) """
            
-            return redirect('login')
+            return redirect('professional')
         return render(request,'award.html',{'form':form})
     form=awardform()
     return render(request,'award.html',{'form':form})
@@ -400,9 +404,9 @@ def display_portfolio(request):
     awards=awards_get(request)
     portfolio=portfolio_get(request)
     profile=profile_get(request)
-    
+    images=os.listdir(settings.MEDIA_ROOT)
     context={"skills":skills,"languages":languages,"formations":formations,"socials":socials,"works":works,
              "certifs":certifs,"recoms":recoms,"volunts":volunts,"motivs":motivs,"profs":profs,"projects":projects,
-             "awards":awards,"portfolio":portfolio,"profile":profile}
+             "awards":awards,"portfolio":portfolio,"profile":profile,"images":images}
     
     return render(request,"portfolio.html",context)
