@@ -43,7 +43,7 @@
       <div class="profile">
         <!--{{profile.image_url}}-->
         <img src="http://127.0.0.1:8000/app{{profile.image_url}}" alt="" class="img-fluid rounded-circle">
-        <h1 class="text-light"><a href="index_connected.html">  {{profile.first_name}} {{profile.last_name}} </a></h1>
+        <h1 class="text-light"><a href="http://127.0.0.1:8000/app/index">  {{profile.first_name}} {{profile.last_name}} </a></h1>
         <div class="social-links mt-3 text-center">
           <!--<a href="" class="twitter"><i class="bx bxl-twitter"></i></a>-->
           {%for social in socials%}
@@ -76,7 +76,7 @@
   <section id="hero" class="d-flex flex-column justify-content-center align-items-center">
     <div class="hero-container" data-aos="fade-in">
       <h1>{{profile.first_name}} {{profile.last_name}}</h1>
-      <p>I'm <span class="typed" data-typed-items="{{profile.occupation}}"></span></p>
+      <p>I'm  <span class="typed" data-typed-items="{{profile.occupation}}"></span></p>
     </div>
   </section><!-- End Hero -->
 
@@ -352,9 +352,9 @@
 {%for proj in projects%}
           <div class="col-lg-4 col-md-6 portfolio-item filter-app">
             <div class="portfolio-wrap">
-              <img src="http://127.0.0.1:8000/app{{project.image_url}}" class="img-fluid" alt="">
+              <img src="http://127.0.0.1:8000/app{{proj.image_url}}" class="img-fluid" alt="">
               <div class="portfolio-links">
-                <a href="http://127.0.0.1:8000/app{{project.image_url}}" data-gallery="portfolioGallery" class="portfolio-lightbox" title="App 1"><i class="bx bx-plus"></i></a>
+                <a href="http://127.0.0.1:8000/app{{proj.image_url}}" data-gallery="portfolioGallery" class="portfolio-lightbox" title="App 1"><i class="bx bx-plus"></i></a>
                 <a href="portfolio-details.html" title="More Details"><i class="bx bx-link"></i></a>
               </div>
             </div>
@@ -460,7 +460,7 @@
                 
               </div>
               <div class="form-group">
-                <label for="name">Occpation</label>
+                <label for="name">Occupation</label>
                 {{recomform.occupation}}
               </div>
               <div class="form-group">
@@ -472,7 +472,7 @@
                 <div class="error-message"></div>
                 <div class="sent-message">Your message has been sent. Thank you!</div>
               </div>
-              <div class="text-center"><button type="submit" onClick="window.location.reload()">Send Message</button></div>
+              <div class="text-center"><button type="submit" onClick="window.location.reload();"> Send Message</button></div>
             </form>
           </div>
 

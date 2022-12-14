@@ -4,13 +4,13 @@ from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Layout, Submit, Row, Column
 
 class loginform(forms.Form):
-    email=forms.EmailField()
-    password=forms.CharField()
+    email=forms.EmailField(max_length=100,required=True,widget=forms.TextInput(attrs={'class':'form-control','placeholder':'Your email'}))
+    password=forms.CharField(required=True,widget=forms.PasswordInput(attrs={'class':'form-control','placeholder':'write your password'}))
     
 class signupForm(forms.Form):
-    email=forms.EmailField()
-    password=forms.CharField()
-    password2=forms.CharField()
+    email=forms.EmailField(required=True,widget=forms.TextInput(attrs={'class':'form-control','placeholder':'Your email'}))
+    password=forms.CharField(required=True,widget=forms.PasswordInput(attrs={'class':'form-control','placeholder':'write your password'}))
+    password2=forms.CharField(required=True,widget=forms.PasswordInput(attrs={'class':'form-control','placeholder':'rewrite your password'}))
     #username=forms.CharField(hidden=True)
     
 

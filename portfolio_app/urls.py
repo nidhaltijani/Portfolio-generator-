@@ -5,7 +5,7 @@ from django.conf import settings
 from django.conf.urls.static import static
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
+    #path('admin/', admin.site.urls),
     path('profile/', my_profile,name="profile"),
     path('login/', signin,name="signin"),
     path('about/', about,name="about"),
@@ -28,6 +28,8 @@ urlpatterns = [
     path('project/',project_view_create,name="project"), # not working
     path('award/',award_view_create,name="award"), # not working
     path('portfolio/',display_portfolio,name="portfolio"), # not working
+    path('',index,name="index"), # not working
+    path('index',index_connected,name="index_connected"), # not working
   
     
     #path('oauth/', include('social_django.urls', namespace='social')),

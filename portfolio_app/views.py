@@ -35,7 +35,7 @@ def signup(request):
         res=""
         if signform.is_valid():
             res=requests.post(f'{url}register/',data=signform.data)
-            redirect('login')
+            return redirect('signin')
         return render(request,'signup.html',{"form":signform,"response":res})
 
 
@@ -51,7 +51,7 @@ def signin(request):
                 response=requests.post(f"{url}auth/",data={"email":email,"password":password}) #json only uses double quotes
                 request.session['token']=response.json()["token"]
                 
-                return redirect('about')
+                return redirect('index_connected')
             else :
                 messages.error(request,'Invalid credentials!')
                 #return redirect('login') # to signup view
@@ -65,7 +65,7 @@ def logout(request):
     auth.logout(request)
     for key in request.session.keys():
         del request.session[key]
-    return redirect('login')
+    return redirect('index')
 
 
 
@@ -93,7 +93,7 @@ def simple_upload(request):
         uploaded_file_url = fs.url(filename)
         return uploaded_file_url
         
-
+@login_required(login_url='signin') 
 def my_profile(request):
     #user_profile=request.user
     if request.method=='POST':
@@ -105,7 +105,7 @@ def my_profile(request):
             #response=requests.delete(f'{url}profile/1/') #workssssssssss
             response=requests.patch(f"{url}profile/{request.user.pk}/",data=profform.data,headers=header) #profile id = user id
             res=requests.patch(f"{url}profile/{request.user.pk}/",data={"image_url":photo_url},headers=header)
-            redirect('profile') 
+            redirect('about') 
         
         return render(request,'profileForm.html',{'profileform':profform})
     profform=profileForm()
@@ -389,6 +389,7 @@ def profile_get(request):
     portfolio=response.json()
     return portfolio 
 
+@login_required(login_url='signin') 
 def display_portfolio(request):
     skills=skills_get(request)
     languages=languages_get(request)
@@ -421,3 +422,9 @@ def display_portfolio(request):
             return redirect("portfolio")
     return render(request,"portfolio.html",context)
 
+def index(request):
+    return render(request,"index.html")
+
+@login_required(login_url="signin")
+def index_connected(request):
+    return render(request,"index_connected.html")
