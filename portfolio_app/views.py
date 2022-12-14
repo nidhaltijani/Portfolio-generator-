@@ -405,12 +405,19 @@ def display_portfolio(request):
     portfolio=portfolio_get(request)
     profile=profile_get(request)
     images=os.listdir(settings.MEDIA_ROOT)
+   # age=get_age(request)
     form=publishForm()
+    recomform=recommendationLetter()
     context={"skills":skills,"languages":languages,"formations":formations,"socials":socials,"works":works,
              "certifs":certifs,"recoms":recoms,"volunts":volunts,"motivs":motivs,"profs":profs,"projects":projects,
-             "awards":awards,"portfolio":portfolio,"profile":profile,"images":images,"form":form}
+             "awards":awards,"portfolio":portfolio,"profile":profile,"images":images,"form":form,"recomform":recomform}
     if request.method=="POST":
         header = {"Authorization": f"Token {request.session['token']}"}
         response=requests.patch(f"{url}portfolio/{request.user.pk}/",data={"is_published":True},headers=header) 
-        
+        recomform=recommendationLetter(request.POST or None)
+        if recomform.is_valid():
+            header = {"Authorization": f"Token {request.session['token']}"}
+            response=requests.post(f"{url}recom/{request.user.pk}/",data=recomform.data,headers=header) 
+            return redirect("portfolio")
     return render(request,"portfolio.html",context)
+
