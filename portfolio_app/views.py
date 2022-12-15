@@ -65,7 +65,7 @@ def logout(request):
     auth.logout(request)
     for key in request.session.keys():
         del request.session[key]
-    return redirect('index')
+    return redirect('http://127.0.0.1:8000/app/')
 
 
 

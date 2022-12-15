@@ -12,7 +12,11 @@ class signupForm(forms.Form):
     password=forms.CharField(required=True,widget=forms.PasswordInput(attrs={'class':'form-control','placeholder':'write your password'}))
     password2=forms.CharField(required=True,widget=forms.PasswordInput(attrs={'class':'form-control','placeholder':'rewrite your password'}))
     #username=forms.CharField(hidden=True)
-    
+    def is_valid(self) -> bool:
+        valid= super().is_valid()
+        if not valid or not (self.cleaned_data['password']==self.cleaned_data['password2']):
+            return False
+        return True
 
     
 class portfolioForm(forms.Form):
@@ -200,7 +204,7 @@ class letter(forms.Form):
                'placeholder': 'Select a date',
                'type': 'date'
               }),) 
-
+    
 
 
 class motivationLetter(forms.Form):
@@ -234,6 +238,7 @@ class recommendationLetter(forms.Form):
                 'style': 'max-width: 1300px;',
                 'placeholder': 'Letter'
                 }),)
+   
     
 
 
