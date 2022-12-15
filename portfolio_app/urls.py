@@ -31,6 +31,7 @@ urlpatterns = [
     path('',index,name="index"), # not working
     path('index/',index_connected,name="index_connected"), # not working
     path('feedback/',provide_feedback,name="feedback"), # not working
+    path('update_profile/',update_profile,name="update_profile"), # not working
   
     
     #path('oauth/', include('social_django.urls', namespace='social')),

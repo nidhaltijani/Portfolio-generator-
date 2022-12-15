@@ -439,3 +439,20 @@ def index_connected(request):
     return render(request,"index_connected.html",{"feedback1":feedback1,"feedback2":feedback2,"feedback3":feedback3})
 
 
+@login_required(login_url='signin') 
+def update_profile(request):
+    #user_profile=request.user
+    if request.method=='POST':
+        profform=profileForm(request.POST,request.FILES) #nahyna user_profile w hatyna 1 pour tester
+        if profform.is_valid():
+        #if request.method=='POST':
+            photo_url=simple_upload(request)
+            header = {"Authorization": f"Token {request.session['token']}"}
+            #response=requests.delete(f'{url}profile/1/') #workssssssssss
+            response=requests.patch(f"{url}profile/{request.user.pk}/",data=profform.data,headers=header) #profile id = user id
+            res=requests.patch(f"{url}profile/{request.user.pk}/",data={"image_url":photo_url},headers=header)
+            redirect('portfolio') 
+        
+        return render(request,'profileForm.html',{'profileform':profform})
+    profform=profileForm()
+    return render(request,'profileForm.html',{'profileform':profform})
