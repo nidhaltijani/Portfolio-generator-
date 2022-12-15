@@ -422,7 +422,7 @@ def display_portfolio(request):
             return redirect("portfolio")
     return render(request,"portfolio.html",context)
 
-
+@login_required(login_url='signin') 
 def get_feedbacks(request):
     header = {"Authorization": f"Token {request.session['token']}"}
     feedback1=requests.get(f"{url}feedbackview/1/",headers=header).json()

@@ -140,7 +140,7 @@ def post_or_get_all_social(request,id):
         accounts=social_accounts.objects.filter(portoflio_id=id)
         if len(accounts)==0:
             return Response(status=204)
-        serializer=LanguageSerializer(accounts, context={'request': request}, many=True)
+        serializer=Social_accountsSerializer(accounts, context={'request': request}, many=False)
         return Response(serializer.data, status=200)
     return Response(status=status.HTTP_405_METHOD_NOT_ALLOWED)
 

@@ -16,8 +16,8 @@ class signupForm(forms.Form):
 
     
 class portfolioForm(forms.Form):
-    philosophy_statement=forms.CharField()
-    about=forms.CharField() #Charfield ?
+    philosophy_statement=forms.CharField(required=True)
+    about=forms.CharField(required=True) #Charfield ?
 
 
 
@@ -39,21 +39,32 @@ class languageform(forms.Form):
     ('5','Native / Bilingual Proficiency'),
 
 ]
-    name=forms.CharField(label="name",max_length=200)
+    name=forms.CharField(label="name",max_length=200,required=True)
     typeoflanguage=forms.ChoiceField(choices=proficiency)
 
 class skillform(forms.Form):
-    name=forms.CharField()
+    name=forms.CharField(required=True,max_length=50,widget=forms.TextInput(attrs={'class':'form-control','placeholder':'Skill'}))
     tool=forms.CharField() 
 
 
 
 class formationform(forms.Form):
-    name=forms.CharField()
-    establishment=forms.CharField() 
-    country_establishment=forms.CharField()
-    start_date=forms.DateField()
-    end_date=forms.DateField()
+    name=forms.CharField(required=True,max_length=50,widget=forms.TextInput(attrs={'class':'form-control','placeholder':'name'}))
+    establishment=forms.CharField(max_length=50,required=True,widget=forms.TextInput(attrs={'class':'form-control','placeholder':'establishment name'})) 
+    country_establishment=forms.CharField(max_length=50,required=True,widget=forms.TextInput(attrs={'class':'form-control','placeholder':'country'}))
+    start_date=forms.DateField(widget = forms.DateInput(
+        format=('%Y-%m-%d'),
+        attrs={'class': 'form-control', 
+               'placeholder': 'Select a date',
+               'type': 'date'
+              }),
+)
+    end_date=forms.DateField(widget = forms.DateInput(
+        format=('%Y-%m-%d'),
+        attrs={'class': 'form-control', 
+               'placeholder': 'Select a date',
+               'type': 'date'
+              }),)
 
 
 
@@ -70,7 +81,12 @@ class professionalAccomplishmentForm(forms.Form):
     title=forms.CharField()
     summary=forms.CharField() 
     photo=forms.FileField()
-    date_a=forms.DateField()
+    date_a=forms.DateField(widget = forms.DateInput(
+        format=('%Y-%m-%d'),
+        attrs={'class': 'form-control', 
+               'placeholder': 'Select a date',
+               'type': 'date'
+              }),)
     accomp_type=forms.ChoiceField(choices =accomplishmentCategories) 
 
     
@@ -80,7 +96,12 @@ class awardform(forms.Form):
     title=forms.CharField()
     summary=forms.CharField() 
     #photo=forms.FileField(required=False)
-    date_a=forms.DateField()
+    date_a=forms.DateField(widget = forms.DateInput(
+        format=('%Y-%m-%d'),
+        attrs={'class': 'form-control', 
+               'placeholder': 'Select a date',
+               'type': 'date'
+              }),)
     recognition=forms.ChoiceField(choices=recog)
  
 
@@ -117,7 +138,12 @@ class social_accounts_form(forms.Form):
 class projectForm(forms.Form):
     name=forms.CharField()
     description=forms.CharField() 
-    date_creation=forms.DateField() #fl models mahtouta charfield nbadlouha ?
+    date_creation=forms.DateField(widget = forms.DateInput(
+        format=('%Y-%m-%d'),
+        attrs={'class': 'form-control', 
+               'placeholder': 'Select a date',
+               'type': 'date'
+              }),) #fl models mahtouta charfield nbadlouha ?
     #visual_demo=forms.FileField()
     photo=forms.FileField()
     
@@ -135,32 +161,79 @@ class certificate(forms.Form):
 class volunteering(forms.Form):
     poste=forms.CharField()
     organization=forms.CharField() 
-    start_date=forms.DateField()
-    end_date=forms.DateField()
+    start_date=forms.DateField(widget = forms.DateInput(
+        format=('%Y-%m-%d'),
+        attrs={'class': 'form-control', 
+               'placeholder': 'Select a date',
+               'type': 'date'
+              }),)
+    end_date=forms.DateField(widget = forms.DateInput(
+        format=('%Y-%m-%d'),
+        attrs={'class': 'form-control', 
+               'placeholder': 'Select a date',
+               'type': 'date'
+              }),)
 
 
 class work_experience(forms.Form):
     poste=forms.CharField()
     organization=forms.CharField() 
-    start_date=forms.DateField()
-    end_date=forms.DateField()
+    start_date=forms.DateField(widget = forms.DateInput(
+        format=('%Y-%m-%d'),
+        attrs={'class': 'form-control', 
+               'placeholder': 'Select a date',
+               'type': 'date'
+              }),)
+    end_date=forms.DateField(widget = forms.DateInput(
+        format=('%Y-%m-%d'),
+        attrs={'class': 'form-control', 
+               'placeholder': 'Select a date',
+               'type': 'date'
+              }),)
 
 
 class letter(forms.Form):
     letter=forms.CharField()
-    date_of_letter=forms.DateField() 
+    date_of_letter=forms.DateField(widget = forms.DateInput(
+        format=('%Y-%m-%d'),
+        attrs={'class': 'form-control', 
+               'placeholder': 'Select a date',
+               'type': 'date'
+              }),) 
 
 
 
 class motivationLetter(forms.Form):
     letter=forms.CharField(widget=forms.TextInput())
-    date_of_letter=forms.DateField()
+    date_of_letter=forms.DateField(widget = forms.DateInput(
+        format=('%Y-%m-%d'),
+        attrs={'class': 'form-control', 
+               'placeholder': 'Select a date',
+               'type': 'date'
+              }),)
     
 class recommendationLetter(forms.Form):
-    writer=forms.CharField()
-    occupation=forms.CharField() 
-    date_of_letter=forms.DateField()
-    letter=forms.CharField(widget=forms.TextInput())
+    writer=forms.CharField(widget = forms.TextInput(attrs={
+                'class': "form-control",
+                'style': 'max-width: 300px;',
+                'placeholder': 'Writer'
+                }),)
+    occupation=forms.CharField(widget = forms.TextInput(attrs={
+                'class': "form-control",
+                'style': 'max-width: 300px;',
+                'placeholder': 'Occupation'
+                }),) 
+    date_of_letter=forms.DateField(widget = forms.DateInput(
+        format=('%Y-%m-%d'),
+        attrs={'class': 'form-control', 
+               'placeholder': 'Select a date',
+               'type': 'date'
+              }),)
+    letter=forms.CharField(widget=forms.Textarea(attrs={
+                'class': "form-control",
+                'style': 'max-width: 1300px;',
+                'placeholder': 'Letter'
+                }),)
     
 
 
@@ -173,7 +246,12 @@ class portform(forms.ModelForm):
 class profileForm(forms.Form):
     first_name=forms.CharField()
     last_name=forms.CharField()
-    birthday=forms.DateField()
+    birthday=forms.DateField(widget = forms.DateInput(
+        format=('%Y-%m-%d'),
+        attrs={'class': 'form-control', 
+               'placeholder': 'Select a date',
+               'type': 'date'
+              }),)
     #TODO add min length 8
     phone_number=forms.IntegerField()  #,max_length=8
     photo=forms.ImageField()
@@ -200,9 +278,11 @@ class profileForm(forms.Form):
     
 
 class feedbackForm(forms.ModelForm):
+   
     class Meta:
         model=feedback
         exclude=["user"]
+        
         
     def save(self,owner, commit=True):
         instance = super(feedbackForm, self).save(commit=False)

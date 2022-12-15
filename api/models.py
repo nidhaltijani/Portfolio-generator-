@@ -226,6 +226,8 @@ class feedback(models.Model):
     feedback=models.CharField(default="", max_length=500)
     class Meta:
         db_table='feedback'
+        
+        
     def __str__(self):
         return f'{self.user.email}'
 
