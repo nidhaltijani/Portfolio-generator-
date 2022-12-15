@@ -24,6 +24,7 @@ class RegisterSerializer(serializers.ModelSerializer):
     def create(self, validated_data):
         #either we use user.objects.create to hash pswrd orself.Meta.model(**validated_data) and use set_password method
         n=user.objects.count()
+        n=str(n)
         usr = user.objects.create_user(n, validated_data['email'], validated_data['password'])
         return usr 
 

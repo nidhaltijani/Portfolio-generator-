@@ -105,7 +105,7 @@ def my_profile(request):
             #response=requests.delete(f'{url}profile/1/') #workssssssssss
             response=requests.patch(f"{url}profile/{request.user.pk}/",data=profform.data,headers=header) #profile id = user id
             res=requests.patch(f"{url}profile/{request.user.pk}/",data={"image_url":photo_url},headers=header)
-            redirect('about') 
+            return redirect('about') 
         
         return render(request,'profileForm.html',{'profileform':profform})
     profform=profileForm()

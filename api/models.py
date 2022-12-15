@@ -16,8 +16,8 @@ class person(models.Model):
 class user(AbstractUser):
    
     email=models.EmailField(default='name@xyz.com',unique=True)
-    password=models.CharField(default="",max_length=40)
-    username = models.CharField(default="",max_length=40)
+    password=models.CharField(default="",max_length=100)
+    username = models.CharField(default="",max_length=150)
     
     USERNAME_FIELD = 'email' # unique identifier.
     REQUIRED_FIELDS = ['username'] 
