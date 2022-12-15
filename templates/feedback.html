@@ -45,7 +45,7 @@
             <form class="mb-5" method="post" id="contactForm" name="contactForm">
               <div class="row">
                 <div class="col-md-6 form-group mb-3">
-                  <label for="" class="col-form-label">Title</label>
+                  <label for="" class="col-form-label"></label>
                   <!--<input type="text" class="form-control" name="title" id="title" placeholder="title">-->
                   {%csrf_token%}
                   {{feedback.title}}
@@ -53,7 +53,7 @@
               </div>
               <div class="row mb-5">
                 <div class="col-md-12 form-group mb-3">
-                  <label for="message" class="col-form-label">Feedback *</label>
+                  <label for="message" class="col-form-label"></label>
                   <!--<textarea class="form-control" name="message" id="Feedback" cols="30" rows="4"  placeholder="Write your Feedback"></textarea>-->
                   {{feedback.feedback}}
                 </div>

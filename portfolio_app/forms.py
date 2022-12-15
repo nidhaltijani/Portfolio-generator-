@@ -278,7 +278,8 @@ class profileForm(forms.Form):
     
 
 class feedbackForm(forms.ModelForm):
-   
+    title=forms.CharField(widget=forms.TextInput(attrs={'placeholder': 'Title', 'style': 'width: 300px;', 'class': 'form-control'}))
+    feedback=forms.CharField(widget=forms.Textarea(attrs={'placeholder': 'Feedback', 'style': 'width: 300px;', 'class': 'form-control','rows': 4}))
     class Meta:
         model=feedback
         exclude=["user"]
