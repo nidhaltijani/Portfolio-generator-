@@ -301,5 +301,3 @@ class feedbackForm(forms.ModelForm):
             instance.save()
         return instance
     
-class publishForm(forms.Form):
-    done=forms.HiddenInput()

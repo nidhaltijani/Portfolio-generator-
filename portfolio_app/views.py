@@ -291,8 +291,8 @@ def skills_get(request):
     header = {"Authorization": f"Token {request.session['token']}"}
     response=requests.get(f"{url}skill/{request.user.pk}/",headers=header) 
     #response.json()
-    skills=""
-    if response:
+    skills=None
+    if response.status_code==200:
         skills=response.json()
     return skills
 
@@ -301,21 +301,27 @@ def skills_get(request):
 def languages_get(request):
     header = {"Authorization": f"Token {request.session['token']}"}
     response=requests.get(f"{url}language/{request.user.pk}/",headers=header) 
-    languages=response.json()
+    languages=None
+    if response.status_code==200:
+        languages=response.json()
     return languages
 
 @login_required(login_url='signin')
 def formations_get(request):
     header = {"Authorization": f"Token {request.session['token']}"}
     response=requests.get(f"{url}formation/{request.user.pk}/",headers=header) 
-    formations=response.json()
+    formations=None
+    if response.status_code==200:
+        formations=response.json()
     return formations
 
 @login_required(login_url='signin')
 def socials_get(request):
     header = {"Authorization": f"Token {request.session['token']}"}
     response=requests.get(f"{url}social/{request.user.pk}/",headers=header) 
-    socials=response.json()
+    socials=None
+    if response.status_code==200:
+        socials=response.json()
     return socials
 
 
@@ -323,21 +329,27 @@ def socials_get(request):
 def works_get(request):
     header = {"Authorization": f"Token {request.session['token']}"}
     response=requests.get(f"{url}work/{request.user.pk}/",headers=header) 
-    works=response.json()
+    works=None
+    if response.status_code==200:
+        works=response.json()
     return works
  
 @login_required(login_url='signin')
 def certifs_get(request):
     header = {"Authorization": f"Token {request.session['token']}"}
     response=requests.get(f"{url}certif/{request.user.pk}/",headers=header) 
-    certifs=response.json()
+    certifs=None
+    if response.status_code==200:
+        certifs=response.json()
     return certifs
 
 @login_required(login_url='signin')
 def recoms_get(request):
     header = {"Authorization": f"Token {request.session['token']}"}
     response=requests.get(f"{url}recom/{request.user.pk}/",headers=header) 
-    recoms=response.json()
+    recoms=None 
+    if response.status_code==200:
+        recoms=response.json()
     return recoms
 
 #feha probleme
@@ -345,28 +357,36 @@ def recoms_get(request):
 def motiv_get(request):
     header = {"Authorization": f"Token {request.session['token']}"}
     response=requests.get(f"{url}motiv/{request.user.pk}/",headers=header) 
-    motiv=response.json()
+    motiv=None
+    if response.status_code==200:
+        motiv=response.json()
     return motiv 
 
 @login_required(login_url='signin')
 def volunts_get(request):
     header = {"Authorization": f"Token {request.session['token']}"}
     response=requests.get(f"{url}volunt/{request.user.pk}/",headers=header) 
-    volunts=response.json()
+    volunts=None
+    if response.status_code==200:
+        volunts=response.json()
     return volunts 
 
 @login_required(login_url='signin')
 def profs_get(request):
     header = {"Authorization": f"Token {request.session['token']}"}
     response=requests.get(f"{url}professional/{request.user.pk}/",headers=header) 
-    profs=response.json()
+    profs=None
+    if response.status_code==200:
+        profs=response.json()
     return profs 
 
 @login_required(login_url='signin')
 def projects_get(request):
     header = {"Authorization": f"Token {request.session['token']}"}
     response=requests.get(f"{url}proj/{request.user.pk}/",headers=header) 
-    projects=response.json()
+    projects=None
+    if response.status_code==200:
+        projects=response.json()
     return projects 
 
 
@@ -374,7 +394,9 @@ def projects_get(request):
 def awards_get(request):
     header = {"Authorization": f"Token {request.session['token']}"}
     response=requests.get(f"{url}award/{request.user.pk}/",headers=header) 
-    awards=response.json()
+    awards=None
+    if response.status_code==200:
+        awards=response.json()
     return awards 
 
 @login_required(login_url='signin')
@@ -409,14 +431,13 @@ def display_portfolio(request):
     profile=profile_get(request)
     images=os.listdir(settings.MEDIA_ROOT)
    # age=get_age(request)
-    form=publishForm(request.POST)
+    
     recomform=recommendationLetter()
     context={"skills":skills,"languages":languages,"formations":formations,"socials":socials,"works":works,
              "certifs":certifs,"recoms":recoms,"volunts":volunts,"motivs":motivs,"profs":profs,"projects":projects,
-             "awards":awards,"portfolio":portfolio,"profile":profile,"images":images,"form":form,"recomform":recomform}
+             "awards":awards,"portfolio":portfolio,"profile":profile,"images":images,"recomform":recomform}
     if request.method=="POST":
-        header = {"Authorization": f"Token {request.session['token']}"}
-        response=requests.patch(f"{url}portfolio/{request.user.pk}/",data={"is_published":True},headers=header) 
+        
         recomform=recommendationLetter(request.POST or None)
         if recomform.is_valid():
             header = {"Authorization": f"Token {request.session['token']}"}
@@ -424,6 +445,7 @@ def display_portfolio(request):
             return redirect("portfolio")
     return render(request,"portfolio.html",context)
 
+@login_required(login_url='signin') 
 def published(request):
     header = {"Authorization": f"Token {request.session['token']}"}
     response=requests.patch(f"{url}portfolio/{request.user.pk}/",data={"is_published":True},headers=header) 
