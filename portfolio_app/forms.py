@@ -84,7 +84,7 @@ class professionalAccomplishmentForm(forms.Form):
     ]
     title=forms.CharField()
     summary=forms.CharField() 
-    photo=forms.FileField()
+    photo=forms.FileField() #changed last
     date_a=forms.DateField(widget = forms.DateInput(
         format=('%Y-%m-%d'),
         attrs={'class': 'form-control', 

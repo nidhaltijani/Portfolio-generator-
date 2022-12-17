@@ -40,9 +40,11 @@ class PortfolioSerializer(serializers.ModelSerializer):
 
 
 class LanguageSerializer(serializers.ModelSerializer):
+    typesoflanguage=serializers.CharField(source='get_typeoflanguage_display',required=False,allow_blank=True) # to display the human readable version
     class Meta:
         model=language
-        fields=["name","typeoflanguage"] #serializes all fields    
+        fields=["name","typeoflanguage","typesoflanguage"] #serializes all fields 
+           
 
 
 class SkillSerializer(serializers.ModelSerializer):
@@ -60,16 +62,20 @@ class FormationSerializer(serializers.ModelSerializer):
         
 
 class ProfessionalAccomplishmentSerializer(serializers.ModelSerializer):
+    accompp_type=serializers.CharField(source='get_accomp_type_display',required=False,allow_blank=True) #did too much problems
     class Meta:
         model=professionalAccomplishment
-        exclude=["portfolio",]  
+        fields=["id","title","summary","photo","image_url","date_a","accomp_type","accompp_type"]
+        
 
 
 class AwardSerializer(serializers.ModelSerializer):
+    recognitions=serializers.CharField(source='get_recognition_display',required=False,allow_blank=True)
     class Meta:
         model=award
         #fields=["recognition"] #serializes all fields    
-        exclude=["portfolio","photo"]
+        #exclude=["portfolio","photo"]
+        fields=["id","title","summary","photo","image_url","date_a","recognition","recognitions"]
 
 class Social_accountsSerializer(serializers.ModelSerializer):
     class Meta:
@@ -85,9 +91,12 @@ class ProjectSerializer(serializers.ModelSerializer):
          
 
 class CertificateSerializer(serializers.ModelSerializer):
+    certification_types=serializers.CharField(source='get_certification_type_display',required=False,allow_blank=True)
     class Meta:
         model=certificate
-        exclude=["portoflio"] #serializes all fields    
+        #exclude=["portoflio"] #serializes all fields 
+        fields=["name","organization","certification_type","certification_types"]
+           
 
 
 class VolunteeringSerializer(serializers.ModelSerializer):
