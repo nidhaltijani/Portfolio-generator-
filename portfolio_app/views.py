@@ -409,7 +409,7 @@ def display_portfolio(request):
     profile=profile_get(request)
     images=os.listdir(settings.MEDIA_ROOT)
    # age=get_age(request)
-    form=publishForm()
+    form=publishForm(request.POST)
     recomform=recommendationLetter()
     context={"skills":skills,"languages":languages,"formations":formations,"socials":socials,"works":works,
              "certifs":certifs,"recoms":recoms,"volunts":volunts,"motivs":motivs,"profs":profs,"projects":projects,
@@ -423,6 +423,11 @@ def display_portfolio(request):
             response=requests.post(f"{url}recom/{request.user.pk}/",data=recomform.data,headers=header) 
             return redirect("portfolio")
     return render(request,"portfolio.html",context)
+
+def published(request):
+    header = {"Authorization": f"Token {request.session['token']}"}
+    response=requests.patch(f"{url}portfolio/{request.user.pk}/",data={"is_published":True},headers=header) 
+    return redirect("portfolio")
 
 @login_required(login_url='signin') 
 def get_feedbacks(request):

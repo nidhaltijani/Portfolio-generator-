@@ -302,4 +302,4 @@ class feedbackForm(forms.ModelForm):
         return instance
     
 class publishForm(forms.Form):
-    pass
+    done=forms.HiddenInput()

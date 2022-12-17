@@ -28,6 +28,7 @@ urlpatterns = [
     path('project/',project_view_create,name="project"), # not working
     path('award/',award_view_create,name="award"), # not working
     path('portfolio/',display_portfolio,name="portfolio"), # not working
+    path('published/',published,name="done"), # not working
     path('',index,name="index"), # not working
     path('index/',index_connected,name="index_connected"), # not working
     path('feedback/',provide_feedback,name="feedback"), # not working
