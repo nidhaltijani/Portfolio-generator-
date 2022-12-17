@@ -10,6 +10,7 @@ requests = "*"
 pillow = "*"
 social-auth-app-django = "*"
 django-crispy-forms = "*"
+django-extensions = "*"
 
 [dev-packages]
 

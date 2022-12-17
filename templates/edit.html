@@ -1,0 +1,177 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+
+
+
+body {
+  font-family: "Roboto", sans-serif;
+  z-index: 990;
+  line-height: 1.9;
+  position: relative;
+  background-size: cover;
+
+  background-image: url({% static 'assets/imgs/header.jpg'%});
+  background-repeat: no-repeat;
+  background-color: rgb(103, 99, 99);
+  background-blend-mode: multiply;
+  -webkit-transition: .2s;
+  transition: .2s;
+  -webkit-transition-timing-function: linear;
+          transition-timing-function: linear;
+          position: absolute;
+          left: 0;
+          top: 0;
+          height: 100%;
+          width: 100%;
+ 
+ }
+
+
+
+input[type=text], select, textarea {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  resize: vertical;
+}
+
+label {
+  padding: 12px 12px 12px 0;
+  display: inline-block;
+}
+
+input[type=submit] {
+  background-color: #739dab;
+  color: white;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  float: right;
+}
+
+input[type=submit]:hover {
+  background-color: #739dab;
+}
+
+.container {
+  border-radius: 5px;
+  background-color: #4a494975;
+  padding: 20px;
+  color: #ccc;
+  width: 700px;
+  margin-left: 400px;
+}
+
+.col-25 {
+  float: left;
+  width: 25%;
+  margin-top: 6px;
+}
+
+.col-75 {
+  float: left;
+  width: 70%;
+  margin-top: 6px;
+}
+
+/* Clear floats after the columns */
+.row:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+/* Responsive layout - when the screen is less than 600px wide, make the two columns stack on top of each other instead of next to each other */
+@media screen and (max-width: 600px) {
+  .col-25, .col-75, input[type=submit] {
+    width: 100%;
+    margin-top: 0;
+  }
+}
+</style>
+</head>
+<body>
+
+<br><br><br>
+
+<div class="container">
+
+  <h2>Edit your profile</h2>
+  <form method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+  <div class="row">
+    <div class="col-25">
+      <label for="fname">First Name</label>
+    </div>
+    <div class="col-75">
+      {{profileform.first_name}}
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-25">
+      <label for="lname">Last Name</label>
+    </div>
+    <div class="col-75">
+      {{profileform.last_name}}
+    </div>
+  </div>
+
+
+
+  <div class="row">
+    <div class="col-25">
+      <label for="occupation">occupation</label>
+    </div>
+    <div class="col-75">
+      {{profileform.occupation}}
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-25">
+      <label for="lname">Birthday</label>
+    </div>
+    <div class="col-75">
+      {{profileform.birthday}}
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-25">
+      <label for="lname">photo</label>
+    </div>
+    <div class="col-75">
+      {{profileform.photo}}
+    </div>
+  </div>
+
+
+  <div class="row">
+    <div class="col-25">
+      <label for="phone">Phone Number</label>
+    </div>
+    <div class="col-75">
+      {{profileform.phone_number}}
+    </div>
+  </div>
+
+
+
+
+
+  <br>
+  <div class="row">
+    <input type="submit" value="Submit">
+  </div>
+  </form>
+</div>
+
+</body>
+</html>
+
+

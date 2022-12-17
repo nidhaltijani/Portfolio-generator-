@@ -86,7 +86,7 @@ def about(request):
 #update profile
 
 def simple_upload(request):
-    if request.method == 'POST' and request.FILES['photo']:
+    if request.method == 'POST' and request.FILES.get('photo'):
         myfile = request.FILES.get('photo')
         fs = FileSystemStorage()
         filename = fs.save(myfile.name, myfile)
@@ -291,7 +291,9 @@ def skills_get(request):
     header = {"Authorization": f"Token {request.session['token']}"}
     response=requests.get(f"{url}skill/{request.user.pk}/",headers=header) 
     #response.json()
-    skills=response.json()
+    skills=""
+    if response:
+        skills=response.json()
     return skills
 
 
@@ -451,8 +453,9 @@ def update_profile(request):
             #response=requests.delete(f'{url}profile/1/') #workssssssssss
             response=requests.patch(f"{url}profile/{request.user.pk}/",data=profform.data,headers=header) #profile id = user id
             res=requests.patch(f"{url}profile/{request.user.pk}/",data={"image_url":photo_url},headers=header)
-            redirect('portfolio') 
+            return redirect('portfolio') 
         
-        return render(request,'profileForm.html',{'profileform':profform})
-    profform=profileForm()
-    return render(request,'profileForm.html',{'profileform':profform})
+        return render(request,'edit.html',{'profileform':profform})
+    profile=profile_get(request) #to get default values
+    profform=profileForm(initial=profile)
+    return render(request,'edit.html',{'profileform':profform})
