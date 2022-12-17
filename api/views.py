@@ -140,7 +140,7 @@ def post_or_get_all_social(request,id):
         accounts=social_accounts.objects.filter(portoflio_id=id)
         if len(accounts)==0:
             return Response(status=204)
-        serializer=Social_accountsSerializer(accounts, context={'request': request}, many=False)
+        serializer=Social_accountsSerializer(accounts, context={'request': request}, many=True)
         return Response(serializer.data, status=200)
     return Response(status=status.HTTP_405_METHOD_NOT_ALLOWED)
 
@@ -325,4 +325,10 @@ class AwardViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated]
     queryset = award.objects.all()
     serializer_class = AwardSerializer
+    http_method_name = ['get', 'post', 'put', 'delete','patch']
+    
+class Social_accountsViewSet(viewsets.ModelViewSet):
+    permission_classes = [IsAuthenticated]
+    queryset = social_accounts.objects.all()
+    serializer_class = Social_accountsSerializer
     http_method_name = ['get', 'post', 'put', 'delete','patch']

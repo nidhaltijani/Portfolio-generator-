@@ -24,6 +24,7 @@ router.register(r'proview',ProfessionalAccomplishmentViewSet)
 router.register(r'projectview',ProjectviewSet) 
 router.register(r'awardview',AwardViewSet) 
 router.register(r'feedbackview',FeedbackViewSet) 
+router.register(r'socialview',Social_accountsViewSet) 
 
 
 

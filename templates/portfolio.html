@@ -48,13 +48,14 @@
         {%endif%}
         <div class="social-links mt-3 text-center">
           <!--<a href="" class="twitter"><i class="bx bxl-twitter"></i></a>-->
-         
-          <p>{% if socials %}{{socials.facebook}}{%endif%}</p>
+          {% for social in socials %}
           
-          <a href="{{socials.facebook}}" class="facebook"><i class="bx bxl-facebook"></i></a>
-          <a href="#" class="instagram"><i class="bx bxl-instagram"></i></a>
-          <a href="#" class="google-plus"><i class="bx bxl-skype"></i></a>
-          <a href="#" class="linkedin"><i class="bx bxl-linkedin"></i></a>
+          
+          <a href="{{social.facebook}}" class="facebook"><i class="bx bxl-facebook"></i></a>
+          <a href="{{social.github}}" class="github"><i class="bx bxl-github"></i></a>
+          <a href="{{social.google}}" class="google-plus"><i class="bx bxl-google"></i></a>
+          <a href="{{social.linkedin}}" class="linkedin"><i class="bx bxl-linkedin"></i></a>
+          {%endfor%}
         </div>
       </div>
 
@@ -102,6 +103,7 @@
             {%if profile.image_url%} 
             <img src="http://127.0.0.1:8000/app{{profile.image_url}}"  class="img-fluid" alt="">
             {%endif%}
+      
           </div>
           <div class="col-lg-8 pt-4 pt-lg-0 content" data-aos="fade-left">
             {%if profile.occupation%}
@@ -117,9 +119,9 @@
                 <ul>
                   {%if profile.birthday%}
                   <li><i class="bi bi-chevron-right"></i> <strong>Birthday:</strong> <span>{{profile.birthday}}</span></li>
-                  
-                  <li><i class="bi bi-chevron-right"></i> <strong>Website:</strong> <span>{{socials.website}}</span></li><!--not workiing-->
- 
+                  {%for social in socials%}
+                  <li><i class="bi bi-chevron-right"></i> <strong>Website:</strong> <span><a href="{{social.website}}" >{{social.website}}</a></span></li><!--not workiing-->
+                  {%endfor%}
                   {%endif%}
                 </ul>
               </div>

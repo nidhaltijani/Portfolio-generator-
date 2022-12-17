@@ -255,7 +255,11 @@ class profileForm(forms.Form):
         format=('%Y-%m-%d'),
         attrs={'class': 'form-control', 
                'placeholder': 'Select a date',
-               'type': 'date'
+               'type': 'date',
+               'style': 'width: 510px;height: 30px;',
+              
+               
+              
               }),)
     #TODO add min length 8
     phone_number=forms.IntegerField()  #,max_length=8
@@ -263,7 +267,7 @@ class profileForm(forms.Form):
     occupation=forms.CharField()
     class Meta:
       
-        widgets={'photo': forms.FileInput(attrs={'class': 'form-control'}),}
+        widgets={'photo': forms.FileInput(attrs={'class': 'form-control'}),'first_name': forms.TextInput(attrs={'placeholder': 'First Name', 'style': 'width: 510px;height: 30px;', 'class': 'form-control'})}
         
     def is_valid(self) -> bool:
         valid= super().is_valid()    
