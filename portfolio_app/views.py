@@ -19,6 +19,7 @@ from .forms import *
 from django.core.files.storage import FileSystemStorage
 from django.conf import settings
 import os
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 # Create your views here.
 #register is working perfectly
 
@@ -465,7 +466,19 @@ def get_feedbacks(request):
     return feedback1,feedback2,feedback3
 
 def index(request):
-    return render(request,"index.html")
+    response=requests.get(f"{url}public/")
+    portfolios=response.json()
+    page = request.GET.get('page')
+    paginator = Paginator(portfolios, 3)
+    
+    if PageNotAnInteger:
+        portfolios = paginator.page(1)
+    elif EmptyPage:
+        portfolios = paginator.page(paginator.num_pages)
+    else:
+        portfolios = paginator.page(page) 
+    
+    return render(request,"index.html",{"portfolios":portfolios})
 
 @login_required(login_url="signin")
 def index_connected(request):
@@ -500,3 +513,4 @@ def display_proj(request,id):
     if response.status_code==200:
         proj=response.json()
     return render(request,'display.html',{'proj':proj})
+

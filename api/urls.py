@@ -64,6 +64,7 @@ urlpatterns = [
      path(r'volunt/<int:id>/',post_or_get_all_volun,name="volunt"),
      path(r'proj/<int:id>/',post_or_get_all_projects,name="proj"),
      path(r'award/<int:id>/',post_or_get_all_awards,name="award"),
+     path(r'public/',get_public_portfolios,name="public"),
      
     # path('',include(user_router.urls)),
      #path(r'connect/',include("rest_framework.urls")),

@@ -36,7 +36,7 @@ class PortfolioSerializer(serializers.ModelSerializer):
     #usr=UserSerializer(many=False)
     class Meta:
         model=portfolio
-        fields=['philosophy_statement','about','is_published'] #serializes all fields    
+        fields=['id','philosophy_statement','about','is_published'] #serializes all fields    
 
 
 class LanguageSerializer(serializers.ModelSerializer):

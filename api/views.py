@@ -248,6 +248,17 @@ def post_or_get_all_pro_accomp(request,id):
         return Response(serializer.data, status=200)
     return Response(status=status.HTTP_405_METHOD_NOT_ALLOWED)
 
+
+@api_view(['GET'])
+@permission_classes((AllowAny,))
+def get_public_portfolios(request):
+    portfolios=portfolio.objects.filter(is_published=True)
+    if len(portfolios)==0:
+        return Response(status=204)
+    serializer=PortfolioSerializer(portfolios, context={'request': request}, many=True)
+    return Response(serializer.data, status=200)
+    
+
 @csrf_exempt
 @api_view(['GET', 'POST'])
 def post_or_get_all_projects(request,id):

@@ -154,7 +154,12 @@
     {% block content %} 
     <form method="post" name='form' enctype='multipart/form-data'>
         <h3>Login Here</h3>
-
+        {%if messages%}
+        
+       {%for msg in messages%}
+        <p>{{msg}}</p>
+        {%endfor%}
+       {%endif%}
         {%csrf_token%}
         {{form}}
         {%if messages%}
