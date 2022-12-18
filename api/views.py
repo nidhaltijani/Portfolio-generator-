@@ -69,7 +69,7 @@ def signup(request):
                 serializer.is_valid(raise_exception=True)   #if anything not valid, raise exception
                 serializer.save()
                 
-                return Response({'success': "Account createdd succesfully"})
+                return Response({'success': "Account createdd succesfully"},status=status.HTTP_201_CREATED)
                   #  status=HTTP) # tnajem taamel moshkla khatr nafsha byn signup w login
                
         else :

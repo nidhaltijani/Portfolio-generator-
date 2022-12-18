@@ -164,8 +164,9 @@
         {%endif%}
         <button type="submit">Log In</button>
         <div class="social">
-            <div class="go"><i class="fab fa-google"></i> Google</div>
-            <div class="fb"><i class="fab fa-facebook"></i> Facebook</div>
+            <div class="go"><i class="fab fa-google"></i><a href="{% url 'social_connect:begin' 'google-oauth2' %}"> Google</a></div>
+            <div class="fb"><i class="fab fa-facebook"></i><a href="{% url 'social_connect:begin' 'facebook' %}"> Facebook</a></div>
+            
         </div>
     </form>
     {% endblock content %} 

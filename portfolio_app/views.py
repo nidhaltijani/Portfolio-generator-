@@ -35,7 +35,11 @@ def signup(request):
         res=""
         if signform.is_valid():
             res=requests.post(f'{url}register/',data=signform.data)
-            return redirect('signin')
+            
+            if res.status_code==201:
+                return redirect('signin')
+            res=res.json()
+            return render(request,'signup.html',{"form":signform,"response":res})
         return render(request,'signup.html',{"form":signform,"response":res})
 
 
@@ -432,17 +436,18 @@ def display_portfolio(request):
     images=os.listdir(settings.MEDIA_ROOT)
    # age=get_age(request)
     
-    recomform=recommendationLetter()
+    recomform=recommendationLetter(request.POST or None)
     context={"skills":skills,"languages":languages,"formations":formations,"socials":socials,"works":works,
              "certifs":certifs,"recoms":recoms,"volunts":volunts,"motivs":motivs,"profs":profs,"projects":projects,
              "awards":awards,"portfolio":portfolio,"profile":profile,"images":images,"recomform":recomform}
     if request.method=="POST":
         
-        recomform=recommendationLetter(request.POST or None)
+        #recomform=recommendationLetter(request.POST or None)
         if recomform.is_valid():
             header = {"Authorization": f"Token {request.session['token']}"}
             response=requests.post(f"{url}recom/{request.user.pk}/",data=recomform.data,headers=header) 
             return redirect("portfolio")
+        return render(request,"portfolio.html",context)
     return render(request,"portfolio.html",context)
 
 @login_required(login_url='signin') 
@@ -486,3 +491,12 @@ def update_profile(request):
     profile=profile_get(request) #to get default values
     profform=profileForm(initial=profile)
     return render(request,'edit.html',{'profileform':profform})
+
+@login_required(login_url='signin')
+def display_proj(request,id):
+    header = {"Authorization": f"Token {request.session['token']}"}
+    response=requests.get(f"{url}projectview/{id}/",headers=header) 
+    proj=None
+    if response.status_code==200:
+        proj=response.json()
+    return render(request,'display.html',{'proj':proj})

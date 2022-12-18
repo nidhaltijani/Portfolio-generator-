@@ -2,7 +2,8 @@ from django import forms
 from api.models import *
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Layout, Submit, Row, Column
-
+import re
+from datetime import datetime
 class loginform(forms.Form):
     email=forms.EmailField(max_length=100,required=True,widget=forms.TextInput(attrs={'class':'form-control','placeholder':'Your email'}))
     password=forms.CharField(required=True,widget=forms.PasswordInput(attrs={'class':'form-control','placeholder':'write your password'}))
@@ -14,8 +15,18 @@ class signupForm(forms.Form):
     #username=forms.CharField(hidden=True)
     def is_valid(self) -> bool:
         valid= super().is_valid()
-        if not valid or not (self.cleaned_data['password']==self.cleaned_data['password2']):
-            return False
+        if not valid :
+            return False  
+        else :
+            pswrd="^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$"
+            if not (self.cleaned_data['password']==self.cleaned_data['password2']):
+                self.add_error('password2','Passwords doesnt match')
+                return False
+            if not re.match(pswrd,self.cleaned_data['password']):
+                self.add_error('password','Poor password')
+                return False
+            
+            
         return True
 
     
@@ -69,7 +80,18 @@ class formationform(forms.Form):
                'placeholder': 'Select a date',
                'type': 'date'
               }),)
-
+    def is_valid(self) -> bool:
+        valid= super().is_valid()
+        if not valid :
+            return False 
+        else :
+            if self.cleaned_data['end_date']> datetime.today().date():
+                self.add_error('end_date','Invalid date')
+                return False
+            if self.cleaned_data['end_date'] < self.cleaned_data['start_date']:
+                self.add_error('start_date','Invalid date')
+                return False
+        return True
 
 
 
@@ -177,6 +199,20 @@ class volunteering(forms.Form):
                'placeholder': 'Select a date',
                'type': 'date'
               }),)
+    
+    def is_valid(self) -> bool:
+        valid= super().is_valid()
+        if not valid :
+            return False 
+        else :
+            if self.cleaned_data['end_date']> datetime.today().date():
+                self.add_error('end_date','Invalid date')
+                return False
+            if self.cleaned_data['end_date'] < self.cleaned_data['start_date']:
+                self.add_error('start_date','Invalid date')
+                return False
+        return True
+
 
 
 class work_experience(forms.Form):
@@ -194,6 +230,20 @@ class work_experience(forms.Form):
                'placeholder': 'Select a date',
                'type': 'date'
               }),)
+    
+    def is_valid(self) -> bool:
+        valid= super().is_valid()
+        if not valid :
+            return False 
+        else :
+            if self.cleaned_data['end_date']> datetime.today().date():
+                self.add_error('end_date','Invalid date')
+                return False
+            if self.cleaned_data['end_date'] < self.cleaned_data['start_date']:
+                self.add_error('start_date','Invalid date')
+                return False
+        return True
+
 
 
 class letter(forms.Form):
@@ -238,7 +288,8 @@ class recommendationLetter(forms.Form):
                 'style': 'max-width: 1300px;',
                 'placeholder': 'Letter'
                 }),)
-   
+    
+    
     
 
 
@@ -270,20 +321,23 @@ class profileForm(forms.Form):
         widgets={'photo': forms.FileInput(attrs={'class': 'form-control'}),'first_name': forms.TextInput(attrs={'placeholder': 'First Name', 'style': 'width: 510px;height: 30px;', 'class': 'form-control'})}
         
     def is_valid(self) -> bool:
-        valid= super().is_valid()    
-        if not self.cleaned_data['first_name'].isalpha():
-            self.add_error('first_name', "first name must be only alphabetic")
-            return False 
-        if not self.cleaned_data['last_name'].isalpha():
-            self.add_error('last_name', "last name must be only alphabetic")
-            return False 
-        if not (len(str(self.cleaned_data['phone_number']))==8):
-            self.add_error('phone_number', "Phone number must be of length 8")
-            return False  
-        if not str(self.cleaned_data['phone_number'])[0] in ("2","9","5"):
-            self.add_error('phone_number', "Phone number must start with 5 ,2 or 9")
-            return False  
-        return True
+        valid= super().is_valid() 
+        if not valid:
+            return False
+        else :   
+            if not self.cleaned_data['first_name'].isalpha():
+                self.add_error('first_name', "first name must be only alphabetic")
+                return False 
+            if not self.cleaned_data['last_name'].isalpha():
+                self.add_error('last_name', "last name must be only alphabetic")
+                return False 
+            if not (len(str(self.cleaned_data['phone_number']))==8):
+                self.add_error('phone_number', "Phone number must be of length 8")
+                return False  
+            if not str(self.cleaned_data['phone_number'])[0] in ("2","9","5"):
+                self.add_error('phone_number', "Phone number must start with 5 ,2 or 9")
+                return False  
+            return True
     
 
 class feedbackForm(forms.ModelForm):
@@ -300,4 +354,5 @@ class feedbackForm(forms.ModelForm):
         if commit:
             instance.save()
         return instance
+    
     

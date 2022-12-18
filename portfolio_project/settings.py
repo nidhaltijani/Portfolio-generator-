@@ -41,7 +41,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'api',
     'portfolio_app',
-    #'social_django',
+    'social_django',
     'rest_framework.authtoken',
     #"corsheaders",
     #"rest_framework_nested",
@@ -188,3 +188,14 @@ MESSAGE_STORAGE = 'django.contrib.messages.storage.cookie.CookieStorage'
 MEDIA_URL = '/photos/users/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'photos/users/')
 
+AUTHENTICATION_BACKENDS = (
+    'django.contrib.auth.backends.ModelBackend',
+    'social_core.backends.github.GithubOAuth2',
+    'social_core.backends.twitter.TwitterOAuth',
+    'social_core.backends.facebook.FacebookOAuth2',
+    'social_core.backends.google.GoogleOAuth2',
+)
+
+#settings for facebook access
+SOCIAL_AUTH_FACEBOOK_KEY = '551102199722743'  # App ID
+SOCIAL_AUTH_FACEBOOK_SECRET = '5705a22d8541c1badce46446ed340611'  # App Secret
